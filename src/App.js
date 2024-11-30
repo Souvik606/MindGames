@@ -40,17 +40,17 @@ function App() {
 
   useEffect(() => {
   let timer;
-  if (!showInstructions) {
+  if (!showInstructions && !isGameComplete) {
     timer = setInterval(() => setTime((prev) => prev + 1), 1000);
   }
 
   return () => clearInterval(timer);
-}, [showInstructions]);
+}, [showInstructions,isGameComplete]);
 
   useEffect(() => {
     if (matchedCards.length === cards.length) {
       setIsGameComplete(true);
-      const victorySound = new Audio("/sounds/victory.mp3");
+      const victorySound = new Audio("/sounds/completion.wav");
       victorySound.play();
     }
   }, [matchedCards, cards]);
@@ -66,7 +66,7 @@ function App() {
     if (flippedCards.length === 2) {
       const [firstCard, secondCard] = flippedCards;
       if (cards[firstCard].value === cards[secondCard].value) {
-        const matchSound = new Audio("/sounds/sound.wav");
+        const matchSound = new Audio("/sounds/matching.wav");
         matchSound.play();
         setMatchedCards((prev) => [...prev, firstCard, secondCard]);
       }
