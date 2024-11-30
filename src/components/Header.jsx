@@ -2,7 +2,7 @@ import React from "react";
 
 function Header({ moves, time, onRestart }) {
   return (
-    <div className="flex gap-x-6 justify-center items-center mb-4">
+    <div className="flex gap-x-10 justify-center items-center mb-4">
       <div className="text-3xl font-bold">Moves: {moves}</div>
       <div className="text-3xl font-bold">Time: {time}s</div>
       <button
