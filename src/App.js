@@ -1,25 +1,128 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState, useEffect } from "react";
+import GameBoard from "./components/GameBoard";
+import Header from "./components/Header";
+import Modal from "./components/Modal";
+import InstructionBox from "./components/InstructionBox";
+
+const generateCards = (difficulty) => {
+  let cardsData;
+  let doubledCards;
+  switch (difficulty) {
+    case "medium":
+      cardsData = ["🍎", "🍌", "🍐", "🍉", "🍒", "🥝"];
+      doubledCards = [...cardsData, ...cardsData,...cardsData, ...cardsData,...cardsData];
+      break;
+    case "hard":
+      cardsData = ["🍎", "🍌", "🍐", "🍉", "🍒", "🥝", "🍍", "🍓", "🍍", "🍑", "🍈", "🍊", "🍋", "🍉", "🍒", "🍉"];
+      doubledCards = [...cardsData, ...cardsData,...cardsData];
+      break;
+    default:
+      cardsData = ["🍎", "🍌", "🍉", "🍒"];
+      doubledCards = [...cardsData, ...cardsData,...cardsData, ...cardsData];
+      break;
+  }
+
+  return doubledCards
+    .map((value, id) => ({ id, value, matched: false }))
+    .sort(() => Math.random() - 0.5);
+};
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+  const [cards, setCards] = useState(generateCards("easy"));
+  const [flippedCards, setFlippedCards] = useState([]);
+  const [matchedCards, setMatchedCards] = useState([]);
+  const [moves, setMoves] = useState(0);
+  const [time, setTime] = useState(0);
+  const [isGameComplete, setIsGameComplete] = useState(false);
+  const [difficulty, setDifficulty] = useState("easy");
+  const [showInstructions,setShowInstructions]=useState(true);
+  console.log(difficulty);
+
+  useEffect(() => {
+  let timer;
+  if (!showInstructions) {
+    timer = setInterval(() => setTime((prev) => prev + 1), 1000);
+  }
+
+  return () => clearInterval(timer);
+}, [showInstructions]);
+
+  useEffect(() => {
+    if (matchedCards.length === cards.length) {
+      setIsGameComplete(true);
+      const victorySound = new Audio("/sounds/victory.mp3");
+      victorySound.play();
+    }
+  }, [matchedCards, cards]);
+
+  const handleCardClick = (cardId) => {
+    if (flippedCards.length < 2 && !flippedCards.includes(cardId)) {
+      setFlippedCards((prev) => [...prev, cardId]);
+      setMoves((prev) => prev + 1);
+    }
+  };
+
+  useEffect(() => {
+    if (flippedCards.length === 2) {
+      const [firstCard, secondCard] = flippedCards;
+      if (cards[firstCard].value === cards[secondCard].value) {
+        const matchSound = new Audio("/sounds/sound.wav");
+        matchSound.play();
+        setMatchedCards((prev) => [...prev, firstCard, secondCard]);
+      }
+      setTimeout(() => setFlippedCards([]), 500);
+    }
+  }, [flippedCards, cards]);
+
+  const handleDifficultyChange = (event) => {
+    setDifficulty(event.target.value);
+    setCards(generateCards(event.target.value));
+    setFlippedCards([]);
+    setMatchedCards([]);
+    setMoves(0);
+    setTime(0);
+    setIsGameComplete(false);
+  };
+
+  const restartGame = () => {
+    setCards(generateCards(difficulty));
+    setFlippedCards([]);
+    setMatchedCards([]);
+    setMoves(0);
+    setTime(0);
+    setIsGameComplete(false);
+  };
+
+  return(
+  <>
+  {showInstructions?<InstructionBox onProceed={()=>{setShowInstructions(false)}}/>:
+    <div className="min-h-screen bg-purple-200 flex flex-col items-center p-4">
+      <div className="bg-white px-6 py-3 my-auto rounded-3xl shadow-xl">
+      <Header moves={moves} time={time} onRestart={restartGame} />
+      <div className="mb-4 flex justify-center items-center">
+        <label htmlFor="difficulty" className="mr-2 text-xl font-bold">Select Difficulty:</label>
+        <select
+          id="difficulty"
+          value={difficulty}
+          onChange={handleDifficultyChange}
+          className="p-2 border-2 border-black rounded-full"
         >
-          Learn React
-        </a>
-      </header>
+          <option className="" value="easy">Easy (4x4)</option>
+          <option value="medium">Medium (5x6)</option>
+          <option value="hard">Hard (6x8)</option>
+        </select>
+      </div>
+      <GameBoard
+        cards={cards}
+        flippedCards={flippedCards}
+        matchedCards={matchedCards}
+        onCardClick={handleCardClick}
+        difficulty={difficulty}
+      />
+      {isGameComplete && <Modal onRestart={restartGame} moves={moves} time={time} />}
     </div>
-  );
+    </div>};
+  </>)
 }
 
 export default App;

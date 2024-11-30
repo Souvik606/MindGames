@@ -28,6 +28,48 @@
   color: #61dafb;
 }
 
+.card-container {
+  perspective: 1000px; /* Enables 3D perspective */
+}
+
+.card {
+  width: 80px;
+  height: 80px;
+  position: relative;
+  transform-style: preserve-3d; /* Ensures child elements are transformed in 3D */
+  transition: transform 0.6s ease-in-out; /* Smooth transition for the flip */
+}
+
+.card.flipped {
+  transform: rotateY(180deg); /* Rotate the card 180 degrees on the Y-axis */
+}
+
+.card-front,
+.card-back {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  backface-visibility: hidden; /* Hides the back side when not visible */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 2rem;
+  font-weight: bold;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.card-front {
+  background-color: #6b46c1; /* Purple background */
+  color: white;
+}
+
+.card-back {
+  background-color: #d6bcfa; /* Light purple background */
+  color: black;
+  transform: rotateY(180deg); /* Flip the back face to align properly */
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
