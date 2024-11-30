@@ -9,12 +9,12 @@ const generateCards = (difficulty) => {
   let doubledCards;
   switch (difficulty) {
     case "medium":
-      cardsData = ["🍎", "🍌", "🍐", "🍉", "🍒", "🥝"];
-      doubledCards = [...cardsData, ...cardsData,...cardsData, ...cardsData,...cardsData];
+      cardsData = ["🍎", "🍌", "🍐", "🍉", "🍒"];
+      doubledCards = [...cardsData, ...cardsData,...cardsData, ...cardsData,...cardsData,...cardsData];
       break;
     case "hard":
-      cardsData = ["🍎", "🍌", "🍐", "🍉", "🍒", "🥝", "🍍", "🍓", "🍍", "🍑", "🍈", "🍊", "🍋", "🍉", "🍒", "🍉"];
-      doubledCards = [...cardsData, ...cardsData,...cardsData];
+      cardsData = ["🍎", "🍌", "🍐", "🍉", "🍒", "🥝", "🍍", "🍓", "🍑", "🍈", "🍊", "🍋"];
+      doubledCards = [...cardsData, ...cardsData,...cardsData,...cardsData];
       break;
     default:
       cardsData = ["🍎", "🍌", "🍉", "🍒"];
