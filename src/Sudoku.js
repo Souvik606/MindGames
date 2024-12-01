@@ -30,7 +30,6 @@ const SudokuGame = () => {
     return true;
   };
 
-  // Backtracking algorithm to solve Sudoku
   const solveSudoku = (grid) => {
     for (let row = 0; row < 9; row++) {
       for (let col = 0; col < 9; col++) {
@@ -49,14 +48,12 @@ const SudokuGame = () => {
     return true;
   };
 
-  // Solve the puzzle once at the beginning and store the solved board
   useEffect(() => {
     const gridCopy = initialPuzzle.map((row) => [...row]);
     solveSudoku(gridCopy);
     setSolvedBoard(gridCopy);
   }, []);
 
-  // Check grid for errors against the solved board
   const checkGrid = () => {
     const newErrors = [];
     for (let row = 0; row < 9; row++) {
@@ -69,16 +66,14 @@ const SudokuGame = () => {
     setErrors(newErrors);
   };
 
-  // Handle input changes
   const handleInputChange = (row, col, value) => {
     const newGrid = grid.map((rowArr, i) =>
       rowArr.map((cell, j) => (i === row && j === col ? value : cell))
     );
     setGrid(newGrid);
-    setErrors([]); // Clear errors on any new input
+    setErrors([]);
   };
 
-  // Render each cell in the grid
   const renderCell = (row, col) => {
     const isError = errors.some((error) => error.row === row && error.col === col);
     const isPrefilled = initialPuzzle[row][col] !== 0;
