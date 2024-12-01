@@ -22,15 +22,18 @@ const SudokuGame = () => {
   const [showInstructions,setShowInstructions]=useState(true);
 
   useEffect(() => {
-    const timer = setInterval(() => {
+    let timer;
+
+    if(!showInstructions){
+    timer = setInterval(() => {
       setElapsedTime((prev) => prev + 1);
-    }, 1000);
+    }, 1000);}
 
     return () => clearInterval(timer);
-  }, []);
+  }, [showInstructions]);
 
    const playSound = () => {
-    const sound = new Audio("/sounds/type.wav");  // Adjust path if necessary
+    const sound = new Audio("/sounds/type.wav");
     sound.play();
   };
 
