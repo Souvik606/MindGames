@@ -29,6 +29,11 @@ const SudokuGame = () => {
     return () => clearInterval(timer);
   }, []);
 
+   const playSound = () => {
+    const sound = new Audio("/sounds/type.wav");  // Adjust path if necessary
+    sound.play();
+  };
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -95,6 +100,7 @@ const SudokuGame = () => {
 
     if (grid[row][col] === 0 && value !== 0) {
       setMoves((prev) => prev + 1);
+      playSound();
     }
   };
 
