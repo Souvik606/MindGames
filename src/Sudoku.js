@@ -109,10 +109,10 @@ const SudokuGame = () => {
         maxLength={1}
         disabled={isPrefilled}
         className={`w-12 h-12 border text-center text-lg rounded-md
-          ${isPrefilled ? "bg-blue-100 text-blue-800 font-bold" : "bg-white"}
+          ${isPrefilled ? "bg-blue-800 text-blue-100 font-bold" : "bg-white"}
           ${isError ? "bg-red-200 border-red-500" : "border-blue-300"}
           focus:outline-none focus:ring-2 focus:ring-blue-400
-          hover:bg-blue-50 transition-colors duration-150
+           transition-colors duration-150
         `}
         value={grid[row][col] || ""}
         onChange={(e) => {
