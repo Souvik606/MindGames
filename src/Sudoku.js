@@ -119,7 +119,7 @@ const SudokuGame = () => {
         disabled={isPrefilled}
         className={`w-12 h-12 border-2 text-center font-bold text-lg rounded-md
           ${isPrefilled ? "bg-blue-800 text-blue-100 font-bold" : "bg-white hover:bg-blue-50 transition-colors duration-150"}
-          ${isError ? "bg-red-300 text-red-600 border-red-500" : "border-blue-500"}
+          ${isError ? "bg-pink-100 text-red-500 border-2 border-red-500" : "border-blue-500"}
           focus:outline-none focus:ring-2 focus:ring-blue-400
         `}
         value={grid[row][col] || ""}
