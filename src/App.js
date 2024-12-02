@@ -2,7 +2,7 @@ import { Routes, Route, BrowserRouter } from "react-router-dom";
 import PairGame from "./PairGame";
 import Home from "./Home";
 import SudokuGame from "./Sudoku";
-import Crossword from "./components/Pair Game/CrossWordGame/CrosswordPuzzle";
+import Crossword from "./components/CrossWordGame/CrosswordPuzzle";
 
 function App() {
   return (
