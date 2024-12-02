@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import SudokuInstructions from "./components/Pair Game/SudokuGame/InstructionBox";
+import React, { useState, useEffect, useRef } from "react";
+import SudokuInstructions from "./components/SudokuGame/InstructionBox";
 
 const SudokuGame = () => {
   const initialPuzzle = [
@@ -19,23 +19,56 @@ const SudokuGame = () => {
   const [solvedBoard, setSolvedBoard] = useState(null);
   const [moves, setMoves] = useState(0);
   const [elapsedTime, setElapsedTime] = useState(0);
-  const [showInstructions,setShowInstructions]=useState(true);
+  const [showInstructions, setShowInstructions] = useState(true);
+  const [selectedCell, setSelectedCell] = useState({ row: 0, col: 0 });
+  const cellRefs = useRef([]);
 
   useEffect(() => {
     let timer;
-
-    if(!showInstructions){
-    timer = setInterval(() => {
-      setElapsedTime((prev) => prev + 1);
-    }, 1000);}
-
+    if (!showInstructions) {
+      timer = setInterval(() => {
+        setElapsedTime((prev) => prev + 1);
+      }, 1000);
+    }
     return () => clearInterval(timer);
   }, [showInstructions]);
 
-   const playSound = () => {
+  useEffect(() => {
+    const gridCopy = initialPuzzle.map((row) => [...row]);
+    solveSudoku(gridCopy);
+    setSolvedBoard(gridCopy);
+  }, []);
+
+  useEffect(() => {
+    const { row, col } = selectedCell;
+    const currentRef = cellRefs.current[row]?.[col];
+    if (currentRef && currentRef.current) {
+      currentRef.current.focus();
+    }
+  }, [selectedCell]);
+
+  const playSound = () => {
     const sound = new Audio("/sounds/type.wav");
     sound.play();
   };
+
+  useEffect(() => {
+  let row = 0;
+  let col = 0;
+
+  while (initialPuzzle[row][col] !== 0) {
+    if (col < 8) {
+      col++;
+    } else {
+      col = 0;
+      row++;
+    }
+    if (row === 9) break;
+  }
+
+  setSelectedCell({ row, col });
+}, []);
+
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -76,12 +109,6 @@ const SudokuGame = () => {
     return true;
   };
 
-  useEffect(() => {
-    const gridCopy = initialPuzzle.map((row) => [...row]);
-    solveSudoku(gridCopy);
-    setSolvedBoard(gridCopy);
-  }, []);
-
   const checkGrid = () => {
     const newErrors = [];
     for (let row = 0; row < 9; row++) {
@@ -100,16 +127,75 @@ const SudokuGame = () => {
     );
     setGrid(newGrid);
     setErrors([]);
-
     if (grid[row][col] === 0 && value !== 0) {
       setMoves((prev) => prev + 1);
       playSound();
     }
   };
 
+  const handleKeyPress = (e) => {
+  let { row, col } = selectedCell;
+
+  const isPrefilled = (row, col) => initialPuzzle[row][col] !== 0;
+
+  const moveToNextValidCell = (direction) => {
+    let newRow = row;
+    let newCol = col;
+
+    switch (direction) {
+      case "up":
+        newRow = row === 0 ? 8 : row - 1; 
+        break;
+      case "down":
+        newRow = row === 8 ? 0 : row + 1; 
+        break;
+      case "left":
+        newCol = col === 0 ? 8 : col - 1;
+        break;
+      case "right":
+        newCol = col === 8 ? 0 : col + 1;
+        break;
+      default:
+        return;
+    }
+
+    while (isPrefilled(newRow, newCol)) {
+      switch (direction) {
+        case "up":
+          newRow = newRow === 0 ? 8 : newRow - 1;
+          break;
+        case "down":
+          newRow = newRow === 8 ? 0 : newRow + 1;
+          break;
+        case "left":
+          newCol = newCol === 0 ? 8 : newCol - 1;
+          break;
+        case "right":
+          newCol = newCol === 8 ? 0 : newCol + 1;
+          break;
+        default:
+          return;
+      }
+    }
+
+    setSelectedCell({ row: newRow, col: newCol });
+  };
+
+  if (e.key === "ArrowUp") moveToNextValidCell("up");
+  if (e.key === "ArrowDown") moveToNextValidCell("down");
+  if (e.key === "ArrowLeft") moveToNextValidCell("left");
+  if (e.key === "ArrowRight") moveToNextValidCell("right");
+};
+
+
+
   const renderCell = (row, col) => {
     const isError = errors.some((error) => error.row === row && error.col === col);
     const isPrefilled = initialPuzzle[row][col] !== 0;
+    const isSelected = selectedCell.row === row && selectedCell.col === col;
+
+    if (!cellRefs.current[row]) cellRefs.current[row] = [];
+    if (!cellRefs.current[row][col]) cellRefs.current[row][col] = React.createRef();
 
     return (
       <input
@@ -117,12 +203,15 @@ const SudokuGame = () => {
         type="text"
         maxLength={1}
         disabled={isPrefilled}
+        ref={cellRefs.current[row][col]}
         className={`w-12 h-12 border-2 text-center font-bold text-lg rounded-md
           ${isPrefilled ? "bg-blue-800 text-blue-100 font-bold" : "bg-white hover:bg-blue-50 transition-colors duration-150"}
           ${isError ? "bg-pink-100 text-red-500 border-2 border-red-500" : "border-blue-500"}
+          ${isSelected ? "ring-2 ring-blue-500" : ""}
           focus:outline-none focus:ring-2 focus:ring-blue-400
         `}
         value={grid[row][col] || ""}
+        onFocus={() => setSelectedCell({ row, col })}
         onChange={(e) => {
           const value = parseInt(e.target.value, 10);
           if (!isNaN(value) && value >= 1 && value <= 9) {
@@ -131,39 +220,41 @@ const SudokuGame = () => {
             handleInputChange(row, col, 0);
           }
         }}
+        onKeyDown={handleKeyPress}
       />
     );
   };
 
-
-
   return (
     <>
-    {showInstructions?<SudokuInstructions onProceed={()=>{setShowInstructions(false)}}/>:
-    <div className="flex flex-col items-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 min-h-screen py-5">
-      <div className="absolute lg:block hidden bg-blue-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
-      <div className="absolute lg:block hidden bg-blue-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
-      <div className="absolute lg:block hidden bg-blue-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
-      <div className="bg-white z-10 px-10 py-4 rounded-3xl ">
-      <h1 className="text-4xl text-center font-extrabold text-blue-600 mb-4">Sudoku Master</h1>
-      <div className="flex justify-between items-center pt-6 w-full max-w-xl px-4 mb-6 text-blue-600 font-medium">
-        <p className="text-3xl font-bold">Moves:{moves}</p>
-        <p className="text-3xl font-bold">Timer:{formatTime(elapsedTime)}</p>
-        <button
-          className="px-8 py-3 bg-blue-600 text-white text-xl font-bold rounded-full shadow hover:bg-blue-700 transition-colors duration-150"
-          onClick={checkGrid}
-        >
-          Check
-        </button>
-      </div>
-      <div className="grid grid-cols-9 gap-1 border-4 border-blue-500 rounded-lg p-4 bg-white shadow-lg">
-        {grid.map((row, rowIndex) =>
-          row.map((_, colIndex) => renderCell(rowIndex, colIndex))
-        )}
-      </div>
-      </div>
-    </div>
-}
+      {showInstructions ? (
+        <SudokuInstructions onProceed={() => setShowInstructions(false)} />
+      ) : (
+        <div className="flex flex-col items-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 min-h-screen p-4">
+          <div className="absolute lg:block hidden bg-blue-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
+          <div className="absolute lg:block hidden bg-blue-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
+          <div className="absolute lg:block hidden bg-blue-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
+
+          <div className="bg-white z-10 px-10 py-4 rounded-3xl">
+            <h1 className="text-4xl text-center font-extrabold text-blue-600 mb-4">Sudoku Master</h1>
+            <div className="flex justify-between items-center pt-6 w-full max-w-xl px-4 mb-6 text-blue-600 font-medium">
+              <p className="text-3xl font-bold">Moves: {moves}</p>
+              <p className="text-3xl font-bold">Timer: {formatTime(elapsedTime)}</p>
+              <button
+                className="px-8 py-3 bg-blue-600 text-white text-xl font-bold rounded-full shadow hover:bg-blue-700 transition-colors duration-150"
+                onClick={checkGrid}
+              >
+                Check
+              </button>
+            </div>
+            <div className="grid grid-cols-9 gap-1 border-4 border-blue-500 rounded-lg p-4 bg-white shadow-lg">
+              {grid.map((row, rowIndex) =>
+                row.map((_, colIndex) => renderCell(rowIndex, colIndex))
+              )}
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 };

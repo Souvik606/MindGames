@@ -57,7 +57,7 @@ function Home() {
               className="flex flex-col items-center justify-center text-center"
             >
               <img
-                className="w-32"
+                className="w-32 rounded-xl"
                 src="/images/crossword-icon.jpg"
                 alt="Crossword Game"
               />
