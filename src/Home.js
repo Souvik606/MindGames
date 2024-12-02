@@ -27,6 +27,13 @@ function Home() {
                             <p className="text-2xl pt-4 font-extrabold text-green-800">Sudoku Master</p>
                         </Link>
                     </div>
+                    <div className="flex flex-col items-center">
+                        <a href="/wordsearch.html" className="text-center" target="_blank" rel="noopener noreferrer">
+                            <img className="rounded-xl w-32" src="/images/unnamed.png" alt="Word Search" />
+                            <p className="text-2xl pt-4 font-extrabold text-green-800">Word Search</p>
+                        </a>
+                    </div>
+
                 </div>
             </div>
         </div>

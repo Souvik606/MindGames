@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Word Searching</title>
+    <link rel="stylesheet" type="text/css" href="../src/wordsearch.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h2 id="instructions"></h2>
+    <button id="newGameButton" type="button">New Game</button>
+    <div id="wordboard"></div>
+    <div id="wordlist"></div>
+    <button id="solveButton" type="button">Release the sacred answers!</button>
+
+    <script src="../src/components/WordSearch/wordpaths.js"></script>
+    <script src="../src/components/WordSearch/wordsearchcontroller.js"></script>
+    <script src="../src/components/WordSearch/wordsearchlogic.js"></script>
+    <script src="../src/components/WordSearch/wordsearchview.js"></script>
+
+    <script>
+      $(document).ready(function() {
+        new WordSearchController("#wordboard", "#wordlist", "#solveButton", "#newGameButton", "#instructions", "#wordTheme");
+      });
+    </script>
+  </body>
+</html>
