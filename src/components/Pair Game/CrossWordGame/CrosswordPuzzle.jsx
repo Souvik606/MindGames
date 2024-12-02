@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const Crossword = () => {
   const grid = [
@@ -112,28 +112,33 @@ const Crossword = () => {
   const [answers, setAnswers] = useState(grid.map((row) => row.map(() => "")));
   const [isWinner, setIsWinner] = useState(false);
   const [selectedCell, setSelectedCell] = useState(null);
+  const keySound = new Audio("/sounds/type.wav"); // Replace with your sound file
 
   const handleChange = (e, rowIndex, colIndex) => {
-    const value = e.target.value.toUpperCase().slice(0, 1); // Limit to a single uppercase letter
+    const value = e.target.value.toUpperCase().slice(0, 1);
+    keySound.play();
     const newAnswers = answers.map((row, rIdx) =>
       row.map((cell, cIdx) =>
         rIdx === rowIndex && cIdx === colIndex ? value : cell
       )
     );
     setAnswers(newAnswers);
-    checkWin(newAnswers); // Immediately validate the updated answers
+    checkWin(newAnswers);
   };
 
   const checkWin = (userAnswers) => {
-    // Check each cell against the solution
     const isCorrect = grid.every((row, rowIndex) =>
       row.every((cell, colIndex) => {
-        // Allow empty cells (not part of the puzzle) to be ignored
         if (cell === "") return true;
         return userAnswers[rowIndex][colIndex] === grid[rowIndex][colIndex];
       })
     );
     setIsWinner(isCorrect);
+  };
+
+  const resetGame = () => {
+    setAnswers(grid.map((row) => row.map(() => ""))); // Reset answers to empty
+    setIsWinner(false); // Reset the winner state
   };
 
   const handleCellClick = (rowIndex, colIndex) => {
@@ -150,44 +155,20 @@ const Crossword = () => {
     return across?.number || down?.number || null;
   };
 
+  useEffect(() => {
+    if (isWinner) {
+      const sound = new Audio("/sounds/game-win.wav"); // Specify your sound file path
+      sound.play();
+    }
+  }, [isWinner]);
+
   return (
     <div className="min-h-screen bg-rose-100 p-10">
       <div className=" flex flex-col items-center bg-white rounded-xl p-10 w-max mx-auto">
         <h1 className="text-4xl font-bold text-rose-600 uppercase">
           Crossword Puzzle
         </h1>
-        <div className="flex flex-col md:flex-row md:space-x-10 py-5">
-          {/* Hints Section */}
-          <div className="mb-5 md:mb-0">
-            <div className="flex flex-wrap">
-              <div>
-                <h3 className="font-bold text-2xl text-rose-500">Across</h3>
-                <ul className="ml-5 mb-3 text-xl list-outside">
-                  {hints.across.map((hint) => (
-                    <li key={hint.number} className="list-item text-gray-800">
-                      <span className="font-semibold text-right text-gray-600">
-                        {hint.number}.
-                      </span>{" "}
-                      {hint.clue}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-              <div>
-                <h3 className="font-bold text-2xl text-rose-500">Down</h3>
-                <ul className="ml-5 text-xl list-outside list">
-                  {hints.down.map((hint) => (
-                    <li key={hint.number} className="list-item text-gray-800">
-                      <span className="font-semibold text-right text-gray-600">
-                        {hint.number}.
-                      </span>{" "}
-                      {hint.clue}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </div>
-          </div>
+        <div className="flex flex-col md:space-x-10 py-5">
           {/* Crossword Grid */}
           <div
             className={`flex flex-col h-max items-center border-rose-700 border-2 ${
@@ -225,10 +206,51 @@ const Crossword = () => {
               </div>
             ))}
           </div>
+          {/* Hints Section */}
+          <div className="mb-5 md:mb-0 py-5">
+            <div className="flex flex-wrap">
+              <div>
+                <h3 className="font-bold text-2xl text-rose-500">Across</h3>
+                <ul className="ml-5 mb-3 text-xl list-outside">
+                  {hints.across.map((hint) => (
+                    <li key={hint.number} className="list-item text-gray-800">
+                      <span className="font-semibold text-right text-gray-600">
+                        {hint.number}.
+                      </span>{" "}
+                      {hint.clue}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-bold text-2xl text-rose-500">Down</h3>
+                <ul className="ml-5 text-xl list-outside list">
+                  {hints.down.map((hint) => (
+                    <li key={hint.number} className="list-item text-gray-800">
+                      <span className="font-semibold text-right text-gray-600">
+                        {hint.number}.
+                      </span>{" "}
+                      {hint.clue}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
         </div>
         {isWinner && (
-          <div className="text-green-600 font-bold text-2xl mb-5 py-10">
-            🎉 Congratulations! You solved the crossword! 🎉
+          <div className="fixed inset-0 bg-zinc-900 bg-opacity-80 flex flex-col justify-center items-center">
+            <div className="bg-white p-10 rounded-xl shadow-xl border-rose-200 border-4 flex flex-col justify-center items-center">
+              <h5 className="text-green-600 font-bold text-2xl mb-5">
+                🎉 Congratulations! You solved the crossword! 🎉
+              </h5>
+              <button
+                onClick={resetGame}
+                className="bg-rose-600 py-2 px-5 rounded-lg text-center font-extrabold text-white tracking-wide text-xl"
+              >
+                Restart
+              </button>
+            </div>
           </div>
         )}
       </div>
