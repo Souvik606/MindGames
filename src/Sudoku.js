@@ -52,6 +52,24 @@ const SudokuGame = () => {
     sound.play();
   };
 
+  useEffect(() => {
+  let row = 0;
+  let col = 0;
+
+  while (initialPuzzle[row][col] !== 0) {
+    if (col < 8) {
+      col++;
+    } else {
+      col = 0;
+      row++;
+    }
+    if (row === 9) break;
+  }
+
+  setSelectedCell({ row, col });
+}, []);
+
+
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -116,12 +134,60 @@ const SudokuGame = () => {
   };
 
   const handleKeyPress = (e) => {
-    const { row, col } = selectedCell;
-    if (e.key === "ArrowUp" && row > 0) setSelectedCell({ row: row - 1, col });
-    if (e.key === "ArrowDown" && row < 8) setSelectedCell({ row: row + 1, col });
-    if (e.key === "ArrowLeft" && col > 0) setSelectedCell({ row, col: col - 1 });
-    if (e.key === "ArrowRight" && col < 8) setSelectedCell({ row, col: col + 1 });
+  let { row, col } = selectedCell;
+
+  const isPrefilled = (row, col) => initialPuzzle[row][col] !== 0;
+
+  const moveToNextValidCell = (direction) => {
+    let newRow = row;
+    let newCol = col;
+
+    switch (direction) {
+      case "up":
+        newRow = row === 0 ? 8 : row - 1; 
+        break;
+      case "down":
+        newRow = row === 8 ? 0 : row + 1; 
+        break;
+      case "left":
+        newCol = col === 0 ? 8 : col - 1;
+        break;
+      case "right":
+        newCol = col === 8 ? 0 : col + 1;
+        break;
+      default:
+        return;
+    }
+
+    while (isPrefilled(newRow, newCol)) {
+      switch (direction) {
+        case "up":
+          newRow = newRow === 0 ? 8 : newRow - 1;
+          break;
+        case "down":
+          newRow = newRow === 8 ? 0 : newRow + 1;
+          break;
+        case "left":
+          newCol = newCol === 0 ? 8 : newCol - 1;
+          break;
+        case "right":
+          newCol = newCol === 8 ? 0 : newCol + 1;
+          break;
+        default:
+          return;
+      }
+    }
+
+    setSelectedCell({ row: newRow, col: newCol });
   };
+
+  if (e.key === "ArrowUp") moveToNextValidCell("up");
+  if (e.key === "ArrowDown") moveToNextValidCell("down");
+  if (e.key === "ArrowLeft") moveToNextValidCell("left");
+  if (e.key === "ArrowRight") moveToNextValidCell("right");
+};
+
+
 
   const renderCell = (row, col) => {
     const isError = errors.some((error) => error.row === row && error.col === col);
@@ -164,7 +230,11 @@ const SudokuGame = () => {
       {showInstructions ? (
         <SudokuInstructions onProceed={() => setShowInstructions(false)} />
       ) : (
-        <div className="flex flex-col items-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 min-h-screen py-5">
+        <div className="flex flex-col items-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 min-h-screen p-4">
+          <div className="absolute lg:block hidden bg-blue-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
+          <div className="absolute lg:block hidden bg-blue-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
+          <div className="absolute lg:block hidden bg-blue-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
+
           <div className="bg-white z-10 px-10 py-4 rounded-3xl">
             <h1 className="text-4xl text-center font-extrabold text-blue-600 mb-4">Sudoku Master</h1>
             <div className="flex justify-between items-center pt-6 w-full max-w-xl px-4 mb-6 text-blue-600 font-medium">
