@@ -91,7 +91,7 @@ const hints = {
       clue: "'If all __ fails...'",
       word: "ELSE",
     },
-    { number: 45, row: 9, col: 0, clue: "Not suitable", word: "INPAT" },
+    { number: 45, row: 9, col: 0, clue: "Not suitable", word: "INAPT" },
     { number: 47, row: 9, col: 4, clue: "Caribbean, for one", word: "SEA" },
     { number: 48, row: 9, col: 10, clue: "Lariats", word: "ROPES" },
     {
@@ -323,6 +323,10 @@ const Crossword = () => {
   const resetGame = () => {
     setAnswers(grid.map((row) => row.map(() => "")));
     setIsWinner(false);
+    setCompletedHints({
+      across: [],
+      down: [],
+    });
   };
 
   const handleCellClick = (rowIndex, colIndex) => {
