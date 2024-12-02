@@ -243,6 +243,89 @@ const Crossword = () => {
     down: [],
   });
 
+  const handleKeyDown = (e) => {
+  if (!selectedCell) return;
+
+  const { row, col } = selectedCell;
+  const totalRows = grid.length;
+  const totalCols = grid[0].length;
+
+  // Helper function to find the next valid cell with wrapping
+  const findNextValidCellWithWrap = (startRow, startCol, rowStep, colStep) => {
+    let newRow = startRow;
+    let newCol = startCol;
+
+    while (true) {
+      newRow += rowStep;
+      newCol += colStep;
+
+      // Handle wrapping
+      if (newRow < 0) newRow = totalRows - 1; // Wrap to bottom row
+      if (newRow >= totalRows) newRow = 0; // Wrap to top row
+      if (newCol < 0) newCol = totalCols - 1; // Wrap to last column
+      if (newCol >= totalCols) newCol = 0; // Wrap to first column
+
+      // Check if the cell is valid
+      if (grid[newRow]?.[newCol] !== "") {
+        return { row: newRow, col: newCol };
+      }
+
+      // Break if back to the starting cell (no valid cells found)
+      if (newRow === startRow && newCol === startCol) {
+        break;
+      }
+    }
+    return null;
+  };
+
+  let nextCell = null;
+
+  switch (e.key) {
+    case "ArrowUp":
+      nextCell = findNextValidCellWithWrap(row, col, -1, 0);
+      break;
+    case "ArrowDown":
+      nextCell = findNextValidCellWithWrap(row, col, 1, 0);
+      break;
+    case "ArrowLeft":
+      nextCell = findNextValidCellWithWrap(row, col, 0, -1);
+      break;
+    case "ArrowRight":
+      nextCell = findNextValidCellWithWrap(row, col, 0, 1);
+      break;
+    case "Backspace":
+      handleChange({ target: { value: "" } }, row, col);
+      break;
+    default:
+      break;
+  }
+
+  if (nextCell) {
+    setSelectedCell(nextCell);
+    makeCellEditable(nextCell.row, nextCell.col);
+  }
+};
+
+// Function to make a cell editable when selected
+const makeCellEditable = (row, col) => {
+  const cell = document.querySelector(`#cell-${row}-${col}`);
+  if (cell) {
+    cell.focus();
+    cell.readOnly = false; // Ensure the cell becomes editable
+  }
+};
+
+// Attach the keydown event listener
+useEffect(() => {
+  window.addEventListener("keydown", handleKeyDown);
+  return () => {
+    window.removeEventListener("keydown", handleKeyDown);
+  };
+}, [selectedCell]);
+
+
+
+
   const checkWordCompletion = (row, col, direction, word, number) => {
     if (direction === "across") {
       let userWord = "";
@@ -393,7 +476,7 @@ const Crossword = () => {
                       className={`relative p-2  border-rose-700 border-2 overflow-clip focus-within:border-rose-500 ${
                         isCompleted
                           ? "bg-emerald-100"
-                          : "bg-rose-50 hover:bg-red-100"
+                          :(selectedCell?.row === rowIndex && selectedCell?.col === colIndex)?"bg-red-100":"bg-rose-50 hover:bg-red-100"
                       }`}
                       key={`${rowIndex}-${colIndex}`}
                     >
@@ -407,15 +490,16 @@ const Crossword = () => {
                         <div className="w-10 h-10 bg-rose-700 shadow-[0_0_0_1rem_#be123c] pointer-events-none"></div>
                       ) : (
                         <input
+                          id={`cell-${rowIndex}-${colIndex}`}
                           type="text"
-                          maxLength="1"
                           value={answers[rowIndex][colIndex]}
                           onChange={(e) => handleChange(e, rowIndex, colIndex)}
                           onClick={() => handleCellClick(rowIndex, colIndex)}
                           className={`w-10 h-10 text-center text-2xl font-bold bg-transparent focus:outline-none focus:border-blue-500 ${
                             isCompleted ? "text-emerald-600" : "text-rose-950"
-                          }`}
-                          disabled={isCompleted}
+                          } ${selectedCell?.row === rowIndex && selectedCell?.col === colIndex? "bg-red-100": ""}`}
+                          disabled={isCompleted} 
+                          readOnly={grid[rowIndex][colIndex] === ""}
                         />
                       )}
                     </div>
