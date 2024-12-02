@@ -1,131 +1,314 @@
-import { useEffect, useState} from "react";
+
+import { useEffect, useState } from "react";
 import CrosswordInstructions from "./CrosswordInstructions";
 
+const grid = [
+  ["E", "D", "I", "T", "", "U", "S", "E", "M", "E", "", "C", "A", "P", "E"],
+  ["Y", "O", "G", "A", "", "N", "O", "T", "U", "P", "", "H", "I", "R", "E"],
+  ["E", "V", "E", "R", "", "F", "R", "A", "N", "C", "", "I", "D", "O", "L"],
+  ["D", "E", "T", "R", "O", "I", "T", "L", "I", "O", "N", "S", "", "", ""],
+  ["", "", "", "A", "N", "T", "", "", "", "T", "E", "E", "N", "S", "Y"],
+  ["I", "M", "A", "G", "E", "", "M", "A", "C", "", "E", "L", "O", "P", "E"],
+  ["M", "A", "N", "O", "", "R", "E", "L", "O", "A", "D", "", "H", "A", "S"],
+  ["P", "R", "I", "N", "C", "E", "T", "O", "N", "T", "I", "G", "E", "R", "S"],
+  ["A", "I", "M", "", "A", "V", "E", "N", "G", "E", "", "E", "L", "S", "E"],
+  ["I", "N", "A", "P", "T", "", "S", "E", "A", "", "R", "O", "P", "E", "S"],
+  ["R", "E", "L", "I", "C", "S", "", "", "", "H", "I", "M", "", "", ""],
+  ["", "", "", "C", "H", "I", "C", "A", "G", "O", "B", "E", "A", "R", "S"],
+  ["B", "A", "R", "K", "", "N", "A", "S", "A", "L", "", "T", "R", "A", "Y"],
+  ["O", "P", "A", "L", "", "U", "N", "T", "I", "L", "", "R", "E", "I", "N"],
+  ["G", "E", "N", "E", "", "S", "T", "O", "N", "Y", "", "Y", "A", "L", "E"],
+];
+
+const hints = {
+  across: [
+    { number: 1, row: 0, col: 0, clue: "Polish a manuscript", word: "EDIT" },
+    { number: 5, row: 0, col: 5, clue: "'I can assist'", word: "USEME" },
+    {
+      number: 10,
+      row: 0,
+      col: 11,
+      clue: "Bullfighter's cloth",
+      word: "CAPE",
+    },
+    { number: 14, row: 1, col: 0, clue: "Meditative exercise", word: "YOGA" },
+    { number: 15, row: 1, col: 5, clue: "Still sleeping", word: "NOTUP" },
+    { number: 16, row: 1, col: 11, clue: "Add to the payroll", word: "HIRE" },
+    {
+      number: 17,
+      row: 2,
+      col: 0,
+      clue: "'...happily __ after'",
+      word: "EVER",
+    },
+    {
+      number: 18,
+      row: 2,
+      col: 5,
+      clue: "Former Parisian money",
+      word: "FRANC",
+    },
+    { number: 19, row: 2, col: 11, clue: "Revered one", word: "IDOL" },
+    {
+      number: 20,
+      row: 3,
+      col: 0,
+      clue: "Michigan NFL team",
+      word: "DETROITLIONS",
+    },
+    { number: 23, row: 4, col: 3, clue: "Insect in a colony", word: "ANT" },
+    { number: 24, row: 4, col: 9, clue: "Very small", word: "TEENSY" },
+    { number: 28, row: 5, col: 0, clue: "Mirror reflection", word: "IMAGE" },
+    {
+      number: 31,
+      row: 5,
+      col: 6,
+      clue: "__ and cheese (kids' lunch)",
+      word: "MAC",
+    },
+    { number: 34, row: 5, col: 10, clue: "Wed on the run", word: "ELOPE" },
+    {
+      number: 35,
+      row: 6,
+      col: 0,
+      clue: "__' War (legendary racehorse)",
+      word: "MANO",
+    },
+    { number: 36, row: 6, col: 5, clue: "Add fresh ammo", word: "RELOAD" },
+    { number: 38, row: 6, col: 12, clue: "Owns", word: "HAS" },
+    {
+      number: 39,
+      row: 7,
+      col: 0,
+      clue: "New Jersey Ivy League football team",
+      word: "PRINCETONTIGERS",
+    },
+    { number: 42, row: 8, col: 0, clue: "Point (at)", word: "AIM" },
+    { number: 43, row: 8, col: 4, clue: "Get even for", word: "AVENGE" },
+    {
+      number: 44,
+      row: 8,
+      col: 11,
+      clue: "'If all __ fails...'",
+      word: "ELSE",
+    },
+    { number: 45, row: 9, col: 0, clue: "Not suitable", word: "INAPT" },
+    { number: 47, row: 9, col: 4, clue: "Caribbean, for one", word: "SEA" },
+    { number: 48, row: 9, col: 10, clue: "Lariats", word: "ROPES" },
+    {
+      number: 49,
+      row: 10,
+      col: 0,
+      clue: "Ancient artifacts",
+      word: "RELICS",
+    },
+    { number: 51, row: 10, col: 9, clue: "That guy", word: "HIM" },
+    {
+      number: 52,
+      row: 11,
+      col: 3,
+      clue: "Illinois NFL team",
+      word: "CHICAGOBEARS",
+    },
+    { number: 59, row: 12, col: 0, clue: "Dog's sound", word: "BARK" },
+    { number: 62, row: 12, col: 5, clue: "Twangy-sounding", word: "NASAL" },
+    { number: 63, row: 12, col: 11, clue: "Cafeteria carrier", word: "TRAY" },
+    { number: 64, row: 13, col: 0, clue: "Whitish gem", word: "OPAL" },
+    { number: 65, row: 13, col: 5, clue: "No later than", word: "UNTIL" },
+    { number: 66, row: 13, col: 11, clue: "Bridle attachment", word: "REIN" },
+    { number: 67, row: 14, col: 0, clue: "Bit of DNA", word: "GENE" },
+    { number: 68, row: 14, col: 5, clue: "Full of rocks", word: "STONY" },
+    {
+      number: 69,
+      row: 14,
+      col: 11,
+      clue: "New Haven university",
+      word: "YALE",
+    },
+  ],
+  down: [
+    { number: 1, row: 0, col: 0, clue: "Watched closely", word: "EYED" },
+    { number: 2, row: 0, col: 1, clue: "Bird of peace", word: "DOVE" },
+    {
+      number: 3,
+      row: 0,
+      col: 2,
+      clue: "'This is the thanks __?'",
+      word: "IGET",
+    },
+    { number: 4, row: 0, col: 3, clue: "Vinegar flavoring", word: "TARR" },
+    { number: 5, row: 0, col: 5, clue: "Not qualified", word: "UNFIT" },
+    { number: 6, row: 0, col: 6, clue: "Alphabetize", word: "SORT" },
+    { number: 7, row: 0, col: 7, clue: "And others: Abbr.", word: "ETA" },
+    {
+      number: 8,
+      row: 0,
+      col: 8,
+      clue: "Tax-exempt bond, for short",
+      word: "MUNI",
+    },
+    {
+      number: 9,
+      row: 0,
+      col: 9,
+      clue: "Florida Disney attraction",
+      word: "EPCOT",
+    },
+    { number: 10, row: 0, col: 11, clue: "Sculptor's tool", word: "CHISEL" },
+    { number: 11, row: 0, col: 12, clue: "Help out", word: "AID" },
+    { number: 12, row: 0, col: 13, clue: "Quid __ quo", word: "PRO" },
+    { number: 13, row: 0, col: 14, clue: "Snakelike fish", word: "EEL" },
+    { number: 21, row: 3, col: 4, clue: "Small bill", word: "ONE" },
+    { number: 22, row: 3, col: 10, clue: "'__ say more?'", word: "NEEDI" },
+    {
+      number: 25,
+      row: 4,
+      col: 12,
+      clue: "Valueless, as a clue",
+      word: "NOHELP",
+    },
+    {
+      number: 26,
+      row: 4,
+      col: 13,
+      clue: "Few and far between",
+      word: "SPARSE",
+    },
+    {
+      number: 27,
+      row: 4,
+      col: 14,
+      clue: "Affirmative votes",
+      word: "YESSES",
+    },
+    { number: 28, row: 5, col: 0, clue: "Undermine", word: "IMPAIR" },
+    {
+      number: 29,
+      row: 5,
+      col: 1,
+      clue: "'Semper Fi' soldier",
+      word: "MARINE",
+    },
+    { number: 30, row: 5, col: 2, clue: "Beast", word: "ANIMAL" },
+    { number: 31, row: 5, col: 6, clue: "Doles (out)", word: "METES" },
+    { number: 32, row: 5, col: 7, clue: "Solo", word: "ALONE" },
+    { number: 33, row: 5, col: 8, clue: "Line dance", word: "CONGA" },
+    { number: 36, row: 6, col: 5, clue: "Gun, as an engine", word: "REV" },
+    { number: 37, row: 6, col: 9, clue: "Gobbled up", word: "ATE" },
+    { number: 40, row: 7, col: 4, clue: "Capture", word: "CATCH" },
+    {
+      number: 41,
+      row: 7,
+      col: 11,
+      clue: "High school math",
+      word: "GEOMETRY",
+    },
+    {
+      number: 46,
+      row: 9,
+      col: 3,
+      clue: "Burger-relish source",
+      word: "PICKLE",
+    },
+    { number: 48, row: 9, col: 10, clue: "Bit of barbecue", word: "RIB" },
+    { number: 50, row: 10, col: 5, clue: "Nasal cavity", word: "SINUS" },
+    {
+      number: 51,
+      row: 10,
+      col: 9,
+      clue: "'Deck the Halls' plant",
+      word: "HOLLY",
+    },
+    { number: 53, row: 11, col: 6, clue: "Is unable to", word: "CANT" },
+    { number: 54, row: 11, col: 7, clue: "Regarding", word: "ASTO" },
+    { number: 55, row: 11, col: 8, clue: "Make progress", word: "GAIN" },
+    { number: 56, row: 11, col: 12, clue: "Neck of the woods", word: "AREA" },
+    { number: 57, row: 11, col: 13, clue: "Banister", word: "RAIL" },
+    { number: 58, row: 11, col: 14, clue: "'Auld Lang __'", word: "SYNE" },
+    { number: 59, row: 12, col: 0, clue: "Swampy area", word: "BOG" },
+    { number: 60, row: 12, col: 1, clue: "Orangutan, for one", word: "APE" },
+    { number: 61, row: 12, col: 2, clue: "Scampered away", word: "RAN" },
+  ],
+};
+
 const Crossword = () => {
-  const grid = [
-    ["E", "D", "I", "T", "", "U", "S", "E", "M", "E", "", "C", "A", "P", "E"],
-    ["Y", "O", "G", "A", "", "N", "O", "T", "U", "P", "", "H", "I", "R", "E"],
-    ["E", "V", "E", "R", "", "F", "R", "A", "N", "C", "", "I", "D", "O", "L"],
-    ["D", "E", "T", "R", "O", "I", "T", "L", "I", "O", "N", "S", "", "", ""],
-    ["", "", "", "A", "N", "T", "", "", "", "T", "E", "E", "N", "S", "Y"],
-    ["I", "M", "A", "G", "E", "", "M", "A", "C", "", "E", "L", "O", "P", "E"],
-    ["M", "A", "N", "O", "", "R", "E", "L", "O", "A", "D", "", "H", "A", "S"],
-    ["P", "R", "I", "N", "C", "E", "T", "O", "N", "T", "I", "G", "E", "R", "S"],
-    ["A", "I", "M", "", "A", "V", "E", "N", "G", "E", "", "E", "L", "S", "E"],
-    ["I", "N", "A", "P", "T", "", "S", "E", "A", "", "R", "O", "P", "E", "S"],
-    ["R", "E", "L", "I", "C", "S", "", "", "", "H", "I", "M", "", "", ""],
-    ["", "", "", "C", "H", "I", "C", "A", "G", "O", "B", "E", "A", "R", "S"],
-    ["B", "A", "R", "K", "", "N", "A", "S", "A", "L", "", "T", "R", "A", "Y"],
-    ["O", "P", "A", "L", "", "U", "N", "T", "I", "L", "", "R", "E", "I", "N"],
-    ["G", "E", "N", "E", "", "S", "T", "O", "N", "Y", "", "Y", "A", "L", "E"],
-  ];
-
-  const hints = {
-    across: [
-      { number: 1, row: 0, col: 0, clue: "Polish a manuscript" },
-      { number: 5, row: 0, col: 5, clue: "'I can assist'" },
-      { number: 10, row: 0, col: 11, clue: "Bullfighter's cloth" },
-      { number: 14, row: 1, col: 0, clue: "Meditative exercise" },
-      { number: 15, row: 1, col: 5, clue: "Still sleeping" },
-      { number: 16, row: 1, col: 11, clue: "Add to the payroll" },
-      { number: 17, row: 2, col: 0, clue: "'...happily __ after'" },
-      { number: 18, row: 2, col: 5, clue: "Former Parisian money" },
-      { number: 19, row: 2, col: 11, clue: "Revered one" },
-      { number: 20, row: 3, col: 0, clue: "Michigan NFL team" },
-      { number: 23, row: 4, col: 3, clue: "Insect in a colony" },
-      { number: 24, row: 4, col: 9, clue: "Very small" },
-      { number: 28, row: 5, col: 0, clue: "Mirror reflection" },
-      { number: 31, row: 5, col: 6, clue: "__ and cheese (kids' lunch)" },
-      { number: 34, row: 5, col: 10, clue: "Wed on the run" },
-      { number: 35, row: 6, col: 0, clue: "__' War (legendary racehorse)" },
-      { number: 36, row: 6, col: 5, clue: "Add fresh ammo" },
-      { number: 38, row: 6, col: 12, clue: "Owns" },
-      {
-        number: 39,
-        row: 7,
-        col: 0,
-        clue: "New Jersey Ivy League football team",
-      },
-      { number: 42, row: 8, col: 0, clue: "Point (at)" },
-      { number: 43, row: 8, col: 4, clue: "Get even for" },
-      { number: 44, row: 8, col: 11, clue: "'If all __ fails...'" },
-      { number: 45, row: 9, col: 0, clue: "Not suitable" },
-      { number: 47, row: 9, col: 4, clue: "Caribbean, for one" },
-      { number: 48, row: 9, col: 10, clue: "Lariats" },
-      { number: 49, row: 10, col: 0, clue: "Ancient artifacts" },
-      { number: 51, row: 10, col: 9, clue: "That guy" },
-      { number: 52, row: 11, col: 3, clue: "Illinois NFL team" },
-      { number: 59, row: 12, col: 0, clue: "Dog's sound" },
-      { number: 62, row: 12, col: 5, clue: "Twangy-sounding" },
-      { number: 63, row: 12, col: 11, clue: "Cafeteria carrier" },
-      { number: 64, row: 13, col: 0, clue: "Whitish gem" },
-      { number: 65, row: 13, col: 5, clue: "No later than" },
-      { number: 66, row: 13, col: 11, clue: "Bridle attachment" },
-      { number: 67, row: 14, col: 0, clue: "Bit of DNA" },
-      { number: 68, row: 14, col: 5, clue: "Full of rocks" },
-      { number: 69, row: 14, col: 11, clue: "New Haven university" },
-    ],
-    down: [
-      { number: 1, row: 0, col: 0, clue: "Watched closely" },
-      { number: 2, row: 0, col: 1, clue: "Bird of peace" },
-      { number: 3, row: 0, col: 2, clue: "'This is the thanks __?'" },
-      { number: 4, row: 0, col: 3, clue: "Vinegar flavoring" },
-      { number: 5, row: 0, col: 5, clue: "Not qualified" },
-      { number: 6, row: 0, col: 6, clue: "Alphabetize" },
-      { number: 7, row: 0, col: 7, clue: "And others: Abbr." },
-      { number: 8, row: 0, col: 8, clue: "Tax-exempt bond, for short" },
-      { number: 9, row: 0, col: 9, clue: "Florida Disney attraction" },
-      { number: 10, row: 0, col: 11, clue: "Sculptor's tool" },
-      { number: 11, row: 0, col: 12, clue: "Help out" },
-      { number: 12, row: 0, col: 13, clue: "Quid __ quo" },
-      { number: 13, row: 0, col: 14, clue: "Snakelike fish" },
-      { number: 21, row: 3, col: 4, clue: "Small bill" },
-      { number: 22, row: 3, col: 10, clue: "'__ say more?'" },
-      { number: 25, row: 4, col: 12, clue: "Valueless, as a clue" },
-      { number: 26, row: 4, col: 13, clue: "Few and far between" },
-      { number: 27, row: 4, col: 14, clue: "Affirmative votes" },
-      { number: 28, row: 5, col: 0, clue: "Undermine" },
-      { number: 29, row: 5, col: 1, clue: "'Semper Fi' soldier" },
-      { number: 30, row: 5, col: 2, clue: "Beast" },
-      { number: 31, row: 5, col: 6, clue: "Doles (out)" },
-      { number: 32, row: 5, col: 7, clue: "Solo" },
-      { number: 33, row: 5, col: 8, clue: "Line dance" },
-      { number: 36, row: 6, col: 5, clue: "Gun, as an engine" },
-      { number: 37, row: 6, col: 9, clue: "Gobbled up" },
-      { number: 40, row: 7, col: 4, clue: "Capture" },
-      { number: 41, row: 7, col: 11, clue: "High school math" },
-      { number: 46, row: 9, col: 3, clue: "Burger-relish source" },
-      { number: 48, row: 9, col: 10, clue: "Bit of barbecue" },
-      { number: 50, row: 10, col: 5, clue: "Nasal cavity" },
-      { number: 51, row: 10, col: 9, clue: "'Deck the Halls' plant" },
-      { number: 53, row: 11, col: 6, clue: "Is unable to" },
-      { number: 54, row: 11, col: 7, clue: "Regarding" },
-      { number: 55, row: 11, col: 8, clue: "Make progress" },
-      { number: 56, row: 11, col: 12, clue: "Neck of the woods" },
-      { number: 57, row: 11, col: 13, clue: "Banister" },
-      { number: 58, row: 11, col: 14, clue: "'Auld Lang __'" },
-      { number: 59, row: 12, col: 0, clue: "Swampy area" },
-      { number: 60, row: 12, col: 1, clue: "Orangutan, for one" },
-      { number: 61, row: 12, col: 2, clue: "Scampered away" },
-    ],
-  };
-
   const [answers, setAnswers] = useState(grid.map((row) => row.map(() => "")));
   const [isWinner, setIsWinner] = useState(false);
   const [selectedCell, setSelectedCell] = useState(null);
   const keySound = new Audio("/sounds/type.wav");
   const [gameStarted, setGameStarted] = useState(false);
 
+  const [completedHints, setCompletedHints] = useState({
+    across: [],
+    down: [],
+  });
+
+  const checkWordCompletion = (row, col, direction, word, number) => {
+    if (direction === "across") {
+      let userWord = "";
+      for (let index = 0; index < word.length; index++) {
+        userWord += answers[row][col + index];
+      }
+
+      setCompletedHints((prevHints) => {
+        const isCompleted = userWord === word;
+        const isAlreadyInList = prevHints.across.includes(number);
+
+        return {
+          ...prevHints,
+          across: isCompleted
+            ? isAlreadyInList
+              ? prevHints.across
+              : [...prevHints.across, number] // Add the number if the word is completed
+            : prevHints.across.filter((n) => n !== number), // Remove the number if the word is not completed
+        };
+      });
+    } else if (direction === "down") {
+      let userWord = "";
+      for (let index = 0; index < word.length; index++) {
+        userWord += answers[row + index][col];
+      }
+
+      setCompletedHints((prevHints) => {
+        const isCompleted = userWord === word;
+        const isAlreadyInList = prevHints.down.includes(number);
+
+        return {
+          ...prevHints,
+          down: isCompleted
+            ? isAlreadyInList
+              ? prevHints.down
+              : [...prevHints.down, number] // Add the number if the word is completed
+            : prevHints.down.filter((n) => n !== number), // Remove the number if the word is not completed
+        };
+      });
+    }
+  };
+
   const handleChange = (e, rowIndex, colIndex) => {
     const value = e.target.value.toUpperCase().slice(0, 1);
     keySound.play();
+
     const newAnswers = answers.map((row, rIdx) =>
       row.map((cell, cIdx) =>
         rIdx === rowIndex && cIdx === colIndex ? value : cell
       )
     );
+
     setAnswers(newAnswers);
     checkWin(newAnswers);
+
+    for (let i = 0; i < hints.across.length; i++) {
+      const hint = hints.across[i];
+
+      checkWordCompletion(hint.row, hint.col, "across", hint.word, hint.number);
+    }
+
+    for (let i = 0; i < hints.down.length; i++) {
+      const hint = hints.down[i];
+
+      checkWordCompletion(hint.row, hint.col, "down", hint.word, hint.number);
+    }
   };
 
   const checkWin = (userAnswers) => {
@@ -141,6 +324,10 @@ const Crossword = () => {
   const resetGame = () => {
     setAnswers(grid.map((row) => row.map(() => "")));
     setIsWinner(false);
+    setCompletedHints({
+      across: [],
+      down: [],
+    });
   };
 
   const handleCellClick = (rowIndex, colIndex) => {
@@ -181,32 +368,59 @@ const Crossword = () => {
           >
             {grid.map((row, rowIndex) => (
               <div key={rowIndex} className="flex items-center">
-                {row.map((cell, colIndex) => (
-                  <div
-                    className="relative p-2 bg-rose-50 border-rose-700 border-2 overflow-clip"
-                    key={`${rowIndex}-${colIndex}`}
-                  >
-                    {/* Display number if it's the start of a word */}
-                    {getNumber(rowIndex, colIndex) && (
-                      <span className="absolute top-1 left-1 text-xs font-bold">
-                        {getNumber(rowIndex, colIndex)}
-                      </span>
-                    )}
-                    {cell === "" ? (
-                      <div className="w-10 h-10 bg-rose-700 shadow-[0_0_0_1rem_#be123c] pointer-events-none"></div>
-                    ) : (
-                      <input
-                        type="text"
-                        maxLength="1"
-                        value={answers[rowIndex][colIndex]}
-                        onChange={(e) => handleChange(e, rowIndex, colIndex)}
-                        onClick={() => handleCellClick(rowIndex, colIndex)}
-                        className={`w-10 h-10 text-center text-2xl font-bold
-                          bg-rose-50 focus:outline-none focus:border-blue-500 text-rose-950`}
-                      />
-                    )}
-                  </div>
-                ))}
+                {row.map((cell, colIndex) => {
+                  const isCompletedAcross = hints.across.some(
+                    (hint) =>
+                      hint.row === rowIndex &&
+                      colIndex >= hint.col &&
+                      colIndex < hint.col + hint.word.length &&
+                      completedHints.across.includes(hint.number)
+                  );
+
+                  const isCompletedDown = hints.down.some(
+                    (hint) =>
+                      hint.col === colIndex &&
+                      rowIndex >= hint.row &&
+                      rowIndex < hint.row + hint.word.length &&
+                      completedHints.down.includes(hint.number)
+                  );
+
+                  // If either across or down word is completed, mark as green
+                  const isCompleted = isCompletedAcross || isCompletedDown;
+
+                  return (
+                    <div
+                      className={`relative p-2  border-rose-700 border-2 overflow-clip focus-within:border-rose-500 ${
+                        isCompleted
+                          ? "bg-emerald-100"
+                          : "bg-rose-50 hover:bg-red-100"
+                      }`}
+                      key={`${rowIndex}-${colIndex}`}
+                    >
+                      {/* Display number if it's the start of a word */}
+                      {getNumber(rowIndex, colIndex) && (
+                        <span className="absolute top-1 left-1 text-xs font-bold">
+                          {getNumber(rowIndex, colIndex)}
+                        </span>
+                      )}
+                      {cell === "" ? (
+                        <div className="w-10 h-10 bg-rose-700 shadow-[0_0_0_1rem_#be123c] pointer-events-none"></div>
+                      ) : (
+                        <input
+                          type="text"
+                          maxLength="1"
+                          value={answers[rowIndex][colIndex]}
+                          onChange={(e) => handleChange(e, rowIndex, colIndex)}
+                          onClick={() => handleCellClick(rowIndex, colIndex)}
+                          className={`w-10 h-10 text-center text-2xl font-bold bg-transparent focus:outline-none focus:border-blue-500 ${
+                            isCompleted ? "text-emerald-600" : "text-rose-950"
+                          }`}
+                          disabled={isCompleted}
+                        />
+                      )}
+                    </div>
+                  );
+                })}
               </div>
             ))}
           </div>
@@ -217,7 +431,13 @@ const Crossword = () => {
                 <h3 className="font-bold text-2xl text-rose-500">Across</h3>
                 <ul className="ml-5 mb-3 text-xl list-outside">
                   {hints.across.map((hint) => (
-                    <li key={hint.number} className="list-item text-gray-800">
+                    <li
+                      key={hint.number}
+                      className={`list-item text-gray-800 ${
+                        completedHints.across.includes(hint.number) &&
+                        "opacity-70 line-through"
+                      }`}
+                    >
                       <span className="font-semibold text-right text-gray-600">
                         {hint.number}.
                       </span>{" "}
@@ -230,7 +450,13 @@ const Crossword = () => {
                 <h3 className="font-bold text-2xl text-rose-500">Down</h3>
                 <ul className="ml-5 text-xl list-outside list">
                   {hints.down.map((hint) => (
-                    <li key={hint.number} className="list-item text-gray-800">
+                    <li
+                      key={hint.number}
+                      className={`list-item text-gray-800 ${
+                        completedHints.down.includes(hint.number) &&
+                        "opacity-70 line-through"
+                      }`}
+                    >
                       <span className="font-semibold text-right text-gray-600">
                         {hint.number}.
                       </span>{" "}
