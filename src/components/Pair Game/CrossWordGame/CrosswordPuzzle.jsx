@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+import CrosswordInstructions from "./CrosswordInstructions";
 
 const Crossword = () => {
   const grid = [
@@ -112,7 +113,8 @@ const Crossword = () => {
   const [answers, setAnswers] = useState(grid.map((row) => row.map(() => "")));
   const [isWinner, setIsWinner] = useState(false);
   const [selectedCell, setSelectedCell] = useState(null);
-  const keySound = new Audio("/sounds/type.wav"); // Replace with your sound file
+  const keySound = new Audio("/sounds/type.wav");
+  const [gameStarted, setGameStarted] = useState(false);
 
   const handleChange = (e, rowIndex, colIndex) => {
     const value = e.target.value.toUpperCase().slice(0, 1);
@@ -137,8 +139,8 @@ const Crossword = () => {
   };
 
   const resetGame = () => {
-    setAnswers(grid.map((row) => row.map(() => ""))); // Reset answers to empty
-    setIsWinner(false); // Reset the winner state
+    setAnswers(grid.map((row) => row.map(() => "")));
+    setIsWinner(false);
   };
 
   const handleCellClick = (rowIndex, colIndex) => {
@@ -162,7 +164,9 @@ const Crossword = () => {
     }
   }, [isWinner]);
 
-  return (
+  return !gameStarted ? (
+    <CrosswordInstructions onProceed={() => setGameStarted(true)} />
+  ) : (
     <div className="min-h-screen bg-rose-100 p-10">
       <div className=" flex flex-col items-center bg-white rounded-xl p-10 w-max mx-auto">
         <h1 className="text-4xl font-bold text-rose-600 uppercase">
