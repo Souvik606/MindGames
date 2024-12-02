@@ -480,7 +480,6 @@ useEffect(() => {
                       }`}
                       key={`${rowIndex}-${colIndex}`}
                     >
-                      {/* Display number if it's the start of a word */}
                       {getNumber(rowIndex, colIndex) && (
                         <span className="absolute top-1 left-1 text-xs font-bold">
                           {getNumber(rowIndex, colIndex)}

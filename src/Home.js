@@ -2,70 +2,65 @@ import { Link } from "react-router-dom";
 
 function Home() {
   return (
-    <div className="bg-green-200 min-h-screen flex items-center justify-center relative">
-      <div className="absolute lg:block hidden bg-green-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
+    <div className="relative bg-gradient-to-br from-green-700 via-emerald-800 to-green-900 min-h-screen flex items-center justify-center">
+
+      <div className="absolute lg:block hidden bg-green-500 rounded-full w-96 h-96 opacity-30 -top-10 -left-20"></div>
       <div className="absolute lg:block hidden bg-green-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
-      <div className="absolute lg:block hidden bg-green-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[1200px]"></div>
+      <div className="absolute lg:block hidden bg-green-500 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
 
-      <div className="bg-white rounded-3xl mx-auto max-w-6xl text-center p-16 relative z-10 overflow-hidden shadow-2xl">
-        <div className="absolute bg-emerald-500 rounded-full w-32 h-32 opacity-30 -top-10 -left-10"></div>
-        <div className="absolute bg-emerald-600 rounded-full w-40 h-40 opacity-20 -bottom-16 -right-10"></div>
+      <div className="relative bg-white rounded-3xl shadow-2xl mx-auto max-w-6xl p-12 text-center overflow-hidden">
+        <div className="absolute bg-emerald-400 w-80 h-80 rounded-full blur-3xl opacity-30 -top-20 -left-20"></div>
+        <div className="absolute bg-green-500 w-96 h-96 rounded-full blur-3xl opacity-20 bottom-0 -right-20"></div>
 
-        <p className="text-6xl text-emerald-600 font-extrabold pt-4">
+        <h1 className="text-7xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-green-500 to-emerald-600 drop-shadow-lg">
           Welcome to the Gaming Hub
+        </h1>
+        <p className="text-5xl font-bold text-emerald-700 mt-8">
+          Engage yourself in funny games and <br /> melt away your anxiety.
         </p>
-        <p className="text-5xl font-bold text-emerald-700 pt-12">
-          Engage yourself in funny games and <br /> remove your anxiety
+        <p className="text-3xl font-bold text-green-900 mt-6">
+          Explore our mind games and dive into the fun!
         </p>
-        <p className="pt-12 text-4xl font-bold text-emerald-900">
-          Here are some funny games for you!
-        </p>
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-10 mt-10 place-items-center">
-          <div className="w-max">
+
+        {/* Game Cards */}
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-10 mt-12 place-items-center">
+          {[
+            {
+              name: "Flip Fusion",
+              img: "/images/fusion.webp",
+              alt: "Flip Fusion",
+              link: "/pair-game",
+            },
+            {
+              name: "Sudoku Master",
+              img: "/images/sudoku.jpeg",
+              alt: "Sudoku Master",
+              link: "/sudoku-game",
+            },
+            {
+              name: "Cross Word Victor",
+              img: "/images/crossword-icon.jpg",
+              alt: "Crossword Game",
+              link: "/crossword-game",
+            },
+          ].map((game, idx) => (
             <Link
-              to="/pair-game"
-              className="flex flex-col items-center justify-center text-center"
+              key={idx}
+              to={game.link}
+              className="group relative w-48 aspect-square rounded-xl shadow-lg transform hover:scale-105 hover:shadow-2xl transition duration-300 overflow-hidden"
             >
               <img
-                className=" rounded-xl w-32"
-                src="/images/fusion.webp"
-                alt="Flip Fusion"
+                src={game.img}
+                alt={game.alt}
+                className="absolute inset-0 object-cover w-full h-full group-hover:opacity-100 transition-opacity duration-300"
               />
-              <p className="text-2xl pt-4 font-extrabold text-emerald-800">
-                Flip Fusion
+              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <p className="absolute bottom-0  flex justify-center text-2xl font-bold text-transparent
+             group-hover:text-yellow-300 transition-colors">
+                {game.name}
               </p>
             </Link>
-          </div>
-          <div className="w-max">
-            <Link
-              to="/sudoku-game"
-              className="flex flex-col items-center justify-center text-center"
-            >
-              <img
-                className="w-32"
-                src="/images/sudoku.jpeg"
-                alt="Sudoku Master"
-              />
-              <p className="text-2xl pt-4 font-extrabold text-green-800">
-                Sudoku Master
-              </p>
-            </Link>
-          </div>
-          <div className="w-max">
-            <Link
-              to="/crossword-game"
-              className="flex flex-col items-center justify-center text-center"
-            >
-              <img
-                className="w-32 rounded-xl"
-                src="/images/crossword-icon.jpg"
-                alt="Crossword Game"
-              />
-              <p className="text-2xl text-center pt-4 font-extrabold text-green-800">
-                Cross Word Victor
-              </p>
-            </Link>
-          </div>
+          ))}
         </div>
       </div>
     </div>
