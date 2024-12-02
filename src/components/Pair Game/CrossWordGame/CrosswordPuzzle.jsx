@@ -151,84 +151,87 @@ const Crossword = () => {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center bg-gray-100 p-5">
-      <h1 className="text-3xl font-bold mb-5 text-rose-600">
-        Crossword Puzzle
-      </h1>
-
-      <div className="flex flex-col md:flex-row md:space-x-10">
-        {/* Hints Section */}
-        <div className="mb-5 md:mb-0">
-          <h2 className="text-3xl font-bold mb-3 text-rose-700">Hints</h2>
-          <div className="flex flex-wrap">
-            <div>
-              <h3 className="font-bold text-2xl">Across</h3>
-              <ul className="ml-5 mb-3 text-xl list-outside">
-                {hints.across.map((hint) => (
-                  <li key={hint.number} className="list-item">
-                    <span className="font-bold">{hint.number}.</span>{" "}
-                    {hint.clue}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div>
-              <h3 className="font-bold text-2xl">Down</h3>
-              <ul className="ml-5 text-xl list-outside list">
-                {hints.down.map((hint) => (
-                  <li key={hint.number} className="list-item">
-                    <span className="font-bold">{hint.number}.</span>{" "}
-                    {hint.clue}
-                  </li>
-                ))}
-              </ul>
+    <div className="min-h-screen bg-rose-100 p-10">
+      <div className=" flex flex-col items-center bg-white rounded-xl p-10 w-max mx-auto">
+        <h1 className="text-4xl font-bold text-rose-600 uppercase">
+          Crossword Puzzle
+        </h1>
+        <div className="flex flex-col md:flex-row md:space-x-10 py-5">
+          {/* Hints Section */}
+          <div className="mb-5 md:mb-0">
+            <div className="flex flex-wrap">
+              <div>
+                <h3 className="font-bold text-2xl text-rose-500">Across</h3>
+                <ul className="ml-5 mb-3 text-xl list-outside">
+                  {hints.across.map((hint) => (
+                    <li key={hint.number} className="list-item text-gray-800">
+                      <span className="font-semibold text-right text-gray-600">
+                        {hint.number}.
+                      </span>{" "}
+                      {hint.clue}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+              <div>
+                <h3 className="font-bold text-2xl text-rose-500">Down</h3>
+                <ul className="ml-5 text-xl list-outside list">
+                  {hints.down.map((hint) => (
+                    <li key={hint.number} className="list-item text-gray-800">
+                      <span className="font-semibold text-right text-gray-600">
+                        {hint.number}.
+                      </span>{" "}
+                      {hint.clue}
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
+          {/* Crossword Grid */}
+          <div
+            className={`flex flex-col h-max items-center border-rose-700 border-2 ${
+              isWinner && "pointer-events-none"
+            }`}
+          >
+            {grid.map((row, rowIndex) => (
+              <div key={rowIndex} className="flex items-center">
+                {row.map((cell, colIndex) => (
+                  <div
+                    className="relative p-2 bg-rose-50 border-rose-700 border-2 overflow-clip"
+                    key={`${rowIndex}-${colIndex}`}
+                  >
+                    {/* Display number if it's the start of a word */}
+                    {getNumber(rowIndex, colIndex) && (
+                      <span className="absolute top-1 left-1 text-xs font-bold">
+                        {getNumber(rowIndex, colIndex)}
+                      </span>
+                    )}
+                    {cell === "" ? (
+                      <div className="w-10 h-10 bg-rose-700 shadow-[0_0_0_1rem_#be123c] pointer-events-none"></div>
+                    ) : (
+                      <input
+                        type="text"
+                        maxLength="1"
+                        value={answers[rowIndex][colIndex]}
+                        onChange={(e) => handleChange(e, rowIndex, colIndex)}
+                        onClick={() => handleCellClick(rowIndex, colIndex)}
+                        className={`w-10 h-10 text-center text-2xl font-bold
+                          bg-rose-50 focus:outline-none focus:border-blue-500 text-rose-950`}
+                      />
+                    )}
+                  </div>
+                ))}
+              </div>
+            ))}
+          </div>
         </div>
-
-        {/* Crossword Grid */}
-        <div
-          className={`flex flex-col h-max items-center border-rose-700 border-2 ${
-            isWinner && "pointer-events-none"
-          }`}
-        >
-          {grid.map((row, rowIndex) => (
-            <div key={rowIndex} className="flex items-center">
-              {row.map((cell, colIndex) => (
-                <div
-                  className="relative p-2 bg-rose-50 border-rose-700 border-2 overflow-clip"
-                  key={`${rowIndex}-${colIndex}`}
-                >
-                  {/* Display number if it's the start of a word */}
-                  {getNumber(rowIndex, colIndex) && (
-                    <span className="absolute top-1 left-1 text-xs font-bold">
-                      {getNumber(rowIndex, colIndex)}
-                    </span>
-                  )}
-                  {cell === "" ? (
-                    <div className="w-10 h-10 bg-rose-700 shadow-[0_0_0_1rem_#be123c] pointer-events-none"></div>
-                  ) : (
-                    <input
-                      type="text"
-                      maxLength="1"
-                      value={answers[rowIndex][colIndex]}
-                      onChange={(e) => handleChange(e, rowIndex, colIndex)}
-                      onClick={() => handleCellClick(rowIndex, colIndex)}
-                      className={`w-10 h-10 text-center text-2xl font-bold 
-                        bg-rose-50 focus:outline-none focus:border-blue-500 text-rose-950`}
-                    />
-                  )}
-                </div>
-              ))}
-            </div>
-          ))}
-        </div>
+        {isWinner && (
+          <div className="text-green-600 font-bold text-2xl mb-5 py-10">
+            🎉 Congratulations! You solved the crossword! 🎉
+          </div>
+        )}
       </div>
-      {isWinner && (
-        <div className="text-green-600 font-bold text-2xl mb-5 py-10">
-          🎉 Congratulations! You solved the crossword! 🎉
-        </div>
-      )}
     </div>
   );
 };
