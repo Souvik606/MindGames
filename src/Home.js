@@ -8,7 +8,7 @@ function Home() {
       <div className="absolute lg:block hidden bg-green-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
       <div className="absolute lg:block hidden bg-green-500 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
 
-      <div className="relative bg-white rounded-3xl shadow-2xl mx-auto max-w-6xl p-12 text-center overflow-hidden">
+      <div className="relative bg-white rounded-3xl shadow-2xl mx-auto max-h-[90svh] max-w-6xl p-12 text-center overflow-x-hidden">
         <div className="absolute bg-emerald-400 w-80 h-80 rounded-full blur-3xl opacity-30 -top-20 -left-20"></div>
         <div className="absolute bg-green-500 w-96 h-96 rounded-full blur-3xl opacity-20 bottom-0 -right-20"></div>
 
@@ -22,8 +22,7 @@ function Home() {
           Explore our mind games and dive into the fun!
         </p>
 
-        {/* Game Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mt-12 place-items-center">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-10 mt-12 place-items-center">
           {[
             {
               name: "Flip Fusion",
