@@ -23,7 +23,7 @@ function Home() {
         </p>
 
         {/* Game Cards */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-10 mt-12 place-items-center">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-10 mt-12 place-items-center">
           {[
             {
               name: "Flip Fusion",
@@ -42,6 +42,12 @@ function Home() {
               img: "/images/crossword-icon.jpg",
               alt: "Crossword Game",
               link: "/crossword-game",
+            },
+            {
+              name: "Slide Puzz",
+              img: "/images/SlidePuzzle.webp",
+              alt: "Word Search Game",
+              link: "/sliding-puzzle",
             },
           ].map((game, idx) => (
             <Link
