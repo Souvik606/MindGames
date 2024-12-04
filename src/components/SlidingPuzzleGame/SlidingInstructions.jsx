@@ -1,6 +1,6 @@
 import React from "react";
 
-function SlidePuzzleInstructions({ onProceed }) {
+function PuzzleInstructions({ onProceed }) {
   return (
     <div className="min-h-screen bg-gradient-to-br from-yellow-200 via-yellow-300 to-yellow-400 relative flex items-center justify-center overflow-hidden">
       <div className="absolute lg:block hidden bg-yellow-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
@@ -42,4 +42,4 @@ function SlidePuzzleInstructions({ onProceed }) {
   );
 }
 
-export default SlidePuzzleInstructions;
+export default PuzzleInstructions;

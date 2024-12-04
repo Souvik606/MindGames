@@ -3,7 +3,8 @@ import PairGame from "./PairGame";
 import Home from "./Home";
 import SudokuGame from "./Sudoku";
 import Crossword from "./components/CrossWordGame/CrosswordPuzzle";
-import SlidingPuzzle from "./components/SlidePuzzleGame/SlidingPuzzle";
+import SlidingPuzzleGame from "./components/SlidingPuzzleGame/SlidingPuzzleGame";
+
 
 function App() {
   return (
@@ -13,7 +14,7 @@ function App() {
         <Route path="pair-game" element={<PairGame />} />
         <Route path="sudoku-game" element={<SudokuGame />} />
         <Route path="crossword-game" element={<Crossword />} />
-        <Route path="sliding-puzzle" element={<SlidingPuzzle />} />
+        <Route path="sliding-puzzle" element={<SlidingPuzzleGame/>} />
       </Routes>
     </BrowserRouter>
   );
