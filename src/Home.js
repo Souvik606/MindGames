@@ -43,12 +43,7 @@ function Home() {
               alt: "Crossword Game",
               link: "/crossword-game",
             },
-            {
-              name: "Slide Puzz",
-              img: "/images/SlidePuzzle.webp",
-              alt: "Word Search Game",
-              link: "/sliding-puzzle",
-            },
+          
           ].map((game, idx) => (
             <Link
               key={idx}
