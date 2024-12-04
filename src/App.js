@@ -3,7 +3,6 @@ import PairGame from "./PairGame";
 import Home from "./Home";
 import SudokuGame from "./Sudoku";
 import Crossword from "./components/CrossWordGame/CrosswordPuzzle";
-import SlidingPuzzle from "./components/SlidePuzzleGame/SlidingPuzzle";
 
 function App() {
   return (
