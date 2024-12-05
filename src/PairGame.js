@@ -3,6 +3,7 @@ import GameBoard from "./components/Pair Game/GameBoard";
 import Header from "./components/Pair Game/Header";
 import Modal from "./components/Pair Game/Modal";
 import InstructionBox from "./components/Pair Game/InstructionBox";
+import { Howl } from "howler";
 
 const generateCards = (difficulty) => {
   let cardsData;
@@ -50,7 +51,9 @@ function PairGame() {
   useEffect(() => {
     if (matchedCards.length === cards.length) {
       setIsGameComplete(true);
-      const victorySound = new Audio("/sounds/completion.wav");
+      const victorySound = new Howl({
+      src: ['/sounds/completion.wav'],
+            });
       victorySound.play();
     }
   }, [matchedCards, cards]);
@@ -66,7 +69,9 @@ function PairGame() {
     if (flippedCards.length === 2) {
       const [firstCard, secondCard] = flippedCards;
       if (cards[firstCard].value === cards[secondCard].value) {
-        const matchSound = new Audio("/sounds/matching.wav");
+        const matchSound = new Howl({
+      src: ['/sounds/matching.wav'],
+            });
         matchSound.play();
         setMatchedCards((prev) => [...prev, firstCard, secondCard]);
       }

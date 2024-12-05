@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import SudokuInstructions from "./components/SudokuGame/InstructionBox";
+import { Howl } from "howler";
 
 const SudokuGame = () => {
   const initialPuzzle = [
@@ -48,7 +49,9 @@ const SudokuGame = () => {
   }, [selectedCell]);
 
   const playSound = () => {
-    const sound = new Audio("/sounds/type.wav");
+    const sound = new Howl({
+      src: ['/sounds/type.wav'],
+            });
     sound.play();
   };
 

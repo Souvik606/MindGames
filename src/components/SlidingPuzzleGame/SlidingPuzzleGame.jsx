@@ -1,5 +1,6 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect,useRef} from "react";
 import PuzzleInstructions from "./SlidingInstructions";
+import { Howl } from "howler";
 
 const SlidingPuzzleGame = () => {
   const [image, setImage] = useState(null);
@@ -64,7 +65,9 @@ const SlidingPuzzleGame = () => {
 
   const handleTileClick = (index) => {
     if (gameStarted && isAdjacent(index, emptyIndex)) {
-      const slideSound = new Audio("/sounds/slide.wav");
+      const slideSound = new Howl({
+      src: ['/sounds/slide.wav'],
+            });
       slideSound.play();
       const newTiles = [...tiles];
       [newTiles[index], newTiles[emptyIndex]] = [newTiles[emptyIndex], newTiles[index]];

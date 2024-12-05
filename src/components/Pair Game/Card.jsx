@@ -1,8 +1,11 @@
 import React from "react";
+import { Howl } from "howler";
 
 function Card({ value, isFlipped, onClick }) {
   const playFlipSound = () => {
-    const flipSound = new Audio("/sounds/sound.wav");
+    const flipSound = new Howl({
+      src: ['/sounds/sound.wav'],
+            });
     flipSound.play();
   };
 
