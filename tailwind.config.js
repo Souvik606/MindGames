@@ -17,7 +17,7 @@ const MyClass=plugin(function ({ addUtilities }) {
       });
     })
 
-
+    
 module.exports = {
   content: ["./src/**/*.{html,js,jsx}"],
   theme: {

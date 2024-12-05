@@ -64,6 +64,8 @@ const SlidingPuzzleGame = () => {
 
   const handleTileClick = (index) => {
     if (gameStarted && isAdjacent(index, emptyIndex)) {
+      const slideSound = new Audio("/sounds/slide.wav");
+      slideSound.play();
       const newTiles = [...tiles];
       [newTiles[index], newTiles[emptyIndex]] = [newTiles[emptyIndex], newTiles[index]];
       setTiles(newTiles);
