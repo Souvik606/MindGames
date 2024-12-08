@@ -4,6 +4,7 @@ import Home from "./Home";
 import SudokuGame from "./Sudoku";
 import Crossword from "./components/CrossWordGame/CrosswordPuzzle";
 import SlidingPuzzleGame from "./components/SlidingPuzzleGame/SlidingPuzzleGame";
+import WordSearchGame from "./components/WordSearch.jsx/wordsearchgame";
 
 
 function App() {
@@ -15,6 +16,7 @@ function App() {
         <Route path="sudoku-game" element={<SudokuGame />} />
         <Route path="crossword-game" element={<Crossword />} />
         <Route path="sliding-puzzle" element={<SlidingPuzzleGame/>} />
+        <Route path="word-search" element={<WordSearchGame/>} />
       </Routes>
     </BrowserRouter>
   );

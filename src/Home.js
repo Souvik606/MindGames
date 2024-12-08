@@ -32,7 +32,7 @@ function Home() {
             },
             {
               name: "Sudoku Master",
-              img: "/images/sudoku.jpeg",
+              img: "/images/sudoku.jpg",
               alt: "Sudoku Master",
               link: "/sudoku-game",
             },
@@ -48,6 +48,13 @@ function Home() {
               img:"/images/SlidePuzzle.webp",
               alt: "Slide Puzz",
               link: "/sliding-puzzle",
+            },
+
+            {
+              name:"Word Search",
+              img:"/images/word-search.jpg",
+              alt: "Word Search",
+              link: "/word-search",
             }
           
           ].map((game, idx) => (
