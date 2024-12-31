@@ -48,30 +48,24 @@ const SudokuGame = () => {
     }
   }, [selectedCell]);
 
-  const playSound = () => {
-    const sound = new Howl({
-      src: ['/sounds/type.wav'],
-            });
-    sound.play();
-  };
+  const typeSound = new Audio("/sounds/type.wav");
 
   useEffect(() => {
-  let row = 0;
-  let col = 0;
+    let row = 0;
+    let col = 0;
 
-  while (initialPuzzle[row][col] !== 0) {
-    if (col < 8) {
-      col++;
-    } else {
-      col = 0;
-      row++;
+    while (initialPuzzle[row][col] !== 0) {
+      if (col < 8) {
+        col++;
+      } else {
+        col = 0;
+        row++;
+      }
+      if (row === 9) break;
     }
-    if (row === 9) break;
-  }
 
-  setSelectedCell({ row, col });
-}, []);
-
+    setSelectedCell({ row, col });
+  }, []);
 
   const formatTime = (seconds) => {
     const mins = Math.floor(seconds / 60);
@@ -132,73 +126,74 @@ const SudokuGame = () => {
     setErrors([]);
     if (grid[row][col] === 0 && value !== 0) {
       setMoves((prev) => prev + 1);
-      playSound();
+      typeSound.play();
     }
   };
 
   const handleKeyPress = (e) => {
-  let { row, col } = selectedCell;
+    let { row, col } = selectedCell;
 
-  const isPrefilled = (row, col) => initialPuzzle[row][col] !== 0;
+    const isPrefilled = (row, col) => initialPuzzle[row][col] !== 0;
 
-  const moveToNextValidCell = (direction) => {
-    let newRow = row;
-    let newCol = col;
+    const moveToNextValidCell = (direction) => {
+      let newRow = row;
+      let newCol = col;
 
-    switch (direction) {
-      case "up":
-        newRow = row === 0 ? 8 : row - 1; 
-        break;
-      case "down":
-        newRow = row === 8 ? 0 : row + 1; 
-        break;
-      case "left":
-        newCol = col === 0 ? 8 : col - 1;
-        break;
-      case "right":
-        newCol = col === 8 ? 0 : col + 1;
-        break;
-      default:
-        return;
-    }
-
-    while (isPrefilled(newRow, newCol)) {
       switch (direction) {
         case "up":
-          newRow = newRow === 0 ? 8 : newRow - 1;
+          newRow = row === 0 ? 8 : row - 1;
           break;
         case "down":
-          newRow = newRow === 8 ? 0 : newRow + 1;
+          newRow = row === 8 ? 0 : row + 1;
           break;
         case "left":
-          newCol = newCol === 0 ? 8 : newCol - 1;
+          newCol = col === 0 ? 8 : col - 1;
           break;
         case "right":
-          newCol = newCol === 8 ? 0 : newCol + 1;
+          newCol = col === 8 ? 0 : col + 1;
           break;
         default:
           return;
       }
-    }
 
-    setSelectedCell({ row: newRow, col: newCol });
+      while (isPrefilled(newRow, newCol)) {
+        switch (direction) {
+          case "up":
+            newRow = newRow === 0 ? 8 : newRow - 1;
+            break;
+          case "down":
+            newRow = newRow === 8 ? 0 : newRow + 1;
+            break;
+          case "left":
+            newCol = newCol === 0 ? 8 : newCol - 1;
+            break;
+          case "right":
+            newCol = newCol === 8 ? 0 : newCol + 1;
+            break;
+          default:
+            return;
+        }
+      }
+
+      setSelectedCell({ row: newRow, col: newCol });
+    };
+
+    if (e.key === "ArrowUp") moveToNextValidCell("up");
+    if (e.key === "ArrowDown") moveToNextValidCell("down");
+    if (e.key === "ArrowLeft") moveToNextValidCell("left");
+    if (e.key === "ArrowRight") moveToNextValidCell("right");
   };
 
-  if (e.key === "ArrowUp") moveToNextValidCell("up");
-  if (e.key === "ArrowDown") moveToNextValidCell("down");
-  if (e.key === "ArrowLeft") moveToNextValidCell("left");
-  if (e.key === "ArrowRight") moveToNextValidCell("right");
-};
-
-
-
   const renderCell = (row, col) => {
-    const isError = errors.some((error) => error.row === row && error.col === col);
+    const isError = errors.some(
+      (error) => error.row === row && error.col === col
+    );
     const isPrefilled = initialPuzzle[row][col] !== 0;
     const isSelected = selectedCell.row === row && selectedCell.col === col;
 
     if (!cellRefs.current[row]) cellRefs.current[row] = [];
-    if (!cellRefs.current[row][col]) cellRefs.current[row][col] = React.createRef();
+    if (!cellRefs.current[row][col])
+      cellRefs.current[row][col] = React.createRef();
 
     return (
       <input
@@ -208,8 +203,16 @@ const SudokuGame = () => {
         disabled={isPrefilled}
         ref={cellRefs.current[row][col]}
         className={`w-12 h-12 border-2 text-center font-bold text-lg rounded-md
-          ${isPrefilled ? "bg-blue-800 text-blue-100 font-bold" : "bg-white hover:bg-blue-50 transition-colors duration-150"}
-          ${isError ? "bg-pink-100 text-red-500 border-2 border-red-500" : "border-blue-500"}
+          ${
+            isPrefilled
+              ? "bg-blue-800 text-blue-100 font-bold"
+              : "bg-white hover:bg-blue-50 transition-colors duration-150"
+          }
+          ${
+            isError
+              ? "bg-pink-100 text-red-500 border-2 border-red-500"
+              : "border-blue-500"
+          }
           ${isSelected ? "ring-2 ring-blue-500" : ""}
           focus:outline-none focus:ring-2 focus:ring-blue-400
         `}
@@ -239,10 +242,14 @@ const SudokuGame = () => {
           <div className="absolute lg:block hidden bg-blue-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
 
           <div className="bg-white z-10 px-10 py-4 rounded-3xl">
-            <h1 className="text-4xl text-center font-extrabold text-blue-600 mb-4">Sudoku Master</h1>
+            <h1 className="text-4xl text-center font-extrabold text-blue-600 mb-4">
+              Sudoku Master
+            </h1>
             <div className="flex justify-between items-center pt-6 w-full max-w-xl px-4 mb-6 text-blue-600 font-medium">
               <p className="text-3xl font-bold">Moves: {moves}</p>
-              <p className="text-3xl font-bold">Timer: {formatTime(elapsedTime)}</p>
+              <p className="text-3xl font-bold">
+                Timer: {formatTime(elapsedTime)}
+              </p>
               <button
                 className="px-8 py-3 bg-blue-600 text-white text-xl font-bold rounded-full shadow hover:bg-blue-700 transition-colors duration-150"
                 onClick={checkGrid}
