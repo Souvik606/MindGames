@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 function Home() {
   return (
     <div className="relative bg-gradient-to-br from-green-700 via-emerald-800 to-green-900 min-h-screen flex items-center justify-center">
-
       <div className="absolute lg:block hidden bg-green-500 rounded-full w-96 h-96 opacity-30 -top-10 -left-20"></div>
       <div className="absolute lg:block hidden bg-green-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
       <div className="absolute lg:block hidden bg-green-500 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
@@ -44,33 +43,34 @@ function Home() {
             },
 
             {
-              name:"Slide Puzz",
-              img:"/images/SlidePuzzle.webp",
+              name: "Slide Puzz",
+              img: "/images/SlidePuzzle.webp",
               alt: "Slide Puzz",
               link: "/sliding-puzzle",
             },
 
             {
-              name:"Word Search",
-              img:"/images/word-search.jpg",
+              name: "Word Search",
+              img: "/images/word-search.jpg",
               alt: "Word Search",
               link: "/word-search",
-            }
-          
+            },
           ].map((game, idx) => (
             <Link
               key={idx}
               to={game.link}
-              className="group relative w-48 aspect-square rounded-xl shadow-lg transform hover:scale-105 hover:shadow-2xl transition duration-300 overflow-hidden"
+              className="group relative w-48 aspect-square rounded-xl shadow-lg transform hover:scale-105 hover:shadow-2xl transition duration-300 overflow-hidden flex items-center justify-center"
             >
               <img
                 src={game.img}
                 alt={game.alt}
                 className="absolute inset-0 object-cover w-full h-full group-hover:opacity-100 transition-opacity duration-300"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-              <p className="absolute bottom-0  flex justify-center text-2xl font-bold text-transparent
-             group-hover:text-yellow-300 transition-colors">
+              <div className="absolute inset-0 bg-gradient-to-t from-black to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+              <p
+                className="absolute bottom-0  flex justify-center text-2xl font-bold text-transparent
+             group-hover:text-yellow-300 transition-colors mx-auto p-1"
+              >
                 {game.name}
               </p>
             </Link>
