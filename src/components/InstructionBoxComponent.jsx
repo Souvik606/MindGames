@@ -1,3 +1,5 @@
+"use server";
+
 import React from "react";
 
 function InstructionBoxComponent({ onProceed, color, rules }) {
@@ -39,7 +41,7 @@ function InstructionBoxComponent({ onProceed, color, rules }) {
         </ul>
         <button
           onClick={onProceed}
-          className={`relative bg-${color}-700 text-white text-xl font-bold px-10 py-4 rounded-full hover:bg-${color}-800 transition duration-200 z-20`}
+          className={`relative bg-${color}-700 text-white text-xl font-bold px-10 py-4 rounded-full hover:bg-${color}-900 transition duration-200 z-20`}
         >
           Proceed
         </button>
