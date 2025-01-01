@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
-import InstructionBoxComponent from "../InstructionBoxComponent";
-import puzzles from "./puzzles";
+import InstructionBoxComponent from "../components/InstructionBoxComponent";
+import puzzles from "../data/puzzles";
 
 const Crossword = () => {
-  const ruleSet=[
+  const ruleSet = [
     "Fill the grid with the correct words based on the clues provided.",
     "Clues are available for both Across and Down directions.",
     "Click on an empty cell to start typing your answer.",
     "The number will show up in the top-left corner of each starting cell",
     "Complete the crossword without any mistakes to win!",
-  ]
+  ];
   const hints = puzzles[3].hints;
   const grid = puzzles[3].grid;
-  
+
   const [answers, setAnswers] = useState(grid.map((row) => row.map(() => "")));
   const [isWinner, setIsWinner] = useState(false);
   const [selectedCell, setSelectedCell] = useState(null);
@@ -212,7 +212,11 @@ const Crossword = () => {
   }, [isWinner]);
 
   return !gameStarted ? (
-    <InstructionBoxComponent onProceed={() => setGameStarted(true)} color={"rose"} rules={ruleSet} />
+    <InstructionBoxComponent
+      onProceed={() => setGameStarted(true)}
+      color={"rose"}
+      rules={ruleSet}
+    />
   ) : (
     <div className="min-h-screen bg-rose-100 p-10">
       <div className=" flex flex-col items-center bg-white rounded-xl p-10 w-max mx-auto">

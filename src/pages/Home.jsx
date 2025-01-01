@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import "../App.css";
 
 function Home() {
   return (
@@ -70,7 +71,8 @@ function Home() {
               <p
                 className="absolute bottom-0  flex justify-center text-lg md:text-xl lg:text-2xl font-bold text-transparent
              group-hover:text-yellow-300 transition-colors mx-auto p-1"
-              >{game.name}
+              >
+                {game.name}
               </p>
             </Link>
           ))}

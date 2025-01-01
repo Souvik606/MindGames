@@ -707,7 +707,7 @@ const puzzles = [
           number: 15,
           row: 6,
           col: 0,
-          clue: "Greeting or playing item",
+          clue: "Grown up boy",
           word: "MAN",
         },
       ],
