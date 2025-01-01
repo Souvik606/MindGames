@@ -4,6 +4,7 @@ import Header from "../components/Pair Game/Header";
 import Modal from "../components/Pair Game/Modal";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
 import { Howl } from "howler";
+import instructions from "../data/gamesData";
 
 const generateCards = (difficulty) => {
   let cardsData;
@@ -49,13 +50,7 @@ const generateCards = (difficulty) => {
 };
 
 function PairGame() {
-  const ruleSet = [
-    "Match all the pairs of cards to win the game.",
-    "Click on a card to flip it and reveal its value.",
-    "If two flipped cards match, they remain flipped.If they don’t match, they will flip back after a short delay.",
-    "Choose difficulty: Easy (4x4), Medium (6x6), Hard (8x8).",
-    "Try to complete the game in as few moves as possible!",
-  ];
+  const ruleSet = instructions.flipFusion.rules;
   const [cards, setCards] = useState(generateCards("easy"));
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);

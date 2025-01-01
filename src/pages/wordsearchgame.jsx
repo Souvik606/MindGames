@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import CompletionModal from "../components/WordSearch.jsx/CompletionModal";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
+import instructions from "../data/gamesData";
 
 const WordSearchGame = () => {
-  const ruleSet = [
-    "Find all the hidden words in the grid.",
-    "Words can be placed horizontally, vertically, or diagonally.",
-    "Use the list of words to guide you through the grid.",
-    "Click to select box and again click on selected box to deselect.",
-    "Complete the word search to win!",
-  ];
+  const ruleSet = instructions.wordSearch.rules;
 
   const grid = [
     ["Q", "Z", "T", "L", "S", "L", "S", "S", "J", "T"],

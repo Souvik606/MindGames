@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
+import instructions from "../data/gamesData";
 
 const SudokuGame = () => {
   const initialPuzzle = [
@@ -14,13 +15,7 @@ const SudokuGame = () => {
     [0, 0, 0, 0, 8, 0, 0, 7, 9],
   ];
 
-  const ruleSet = [
-    "Fill the grid so every row, column, and 3x3 box contains numbers 1-9",
-    "Use logical reasoning; no guessing is needed!",
-    "Avoid duplicates in rows, columns, or 3x3 boxes.",
-    "Use the Check button to highlight any mistakes.",
-    "Complete the grid to win!",
-  ];
+  const ruleSet = instructions.sudoku.rules;
 
   const [grid, setGrid] = useState(initialPuzzle);
   const [errors, setErrors] = useState([]);

@@ -42,7 +42,6 @@ function Home() {
               alt: "Crossword Game",
               link: "/crossword-game",
             },
-
             {
               name: "Slide Puzz",
               img: "/images/SlidePuzzle.webp",

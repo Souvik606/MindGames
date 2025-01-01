@@ -1,15 +1,10 @@
 import { useEffect, useState } from "react";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
-import puzzles from "../data/puzzles";
+import puzzles from "../data/crosswords";
+import instructions from "../data/gamesData.js";
 
 const Crossword = () => {
-  const ruleSet = [
-    "Fill the grid with the correct words based on the clues provided.",
-    "Clues are available for both Across and Down directions.",
-    "Click on an empty cell to start typing your answer.",
-    "The number will show up in the top-left corner of each starting cell",
-    "Complete the crossword without any mistakes to win!",
-  ];
+  const ruleSet = instructions.crosswordPuzzle.rules;
   const hints = puzzles[3].hints;
   const grid = puzzles[3].grid;
 
@@ -214,7 +209,7 @@ const Crossword = () => {
   return !gameStarted ? (
     <InstructionBoxComponent
       onProceed={() => setGameStarted(true)}
-      color={"rose"}
+      color="rose"
       rules={ruleSet}
     />
   ) : (

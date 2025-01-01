@@ -1,15 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
 import { Howl } from "howler";
+import instructions from "../data/gamesData";
 
 const SlidingPuzzleGame = () => {
-  const ruleSet = [
-    "The puzzle consists of a 4x4 grid with tiles that are mixed up.",
-    "The objective is to rearrange the tiles to form the correct image or pattern.",
-    "You can move a tile by clicking on it, and it will slide into the empty space.",
-    "You can only move tiles adjacent to the empty space.",
-    "Complete the puzzle by arranging the tiles in the correct order to win!",
-  ];
+  const ruleSet = instructions.slidingPuzzle.rules;
 
   const [image, setImage] = useState(null);
   const [tiles, setTiles] = useState([]);
