@@ -167,7 +167,6 @@ function PairGame() {
           </div>
         </div>
       )}
-      ;
     </>
   );
 }

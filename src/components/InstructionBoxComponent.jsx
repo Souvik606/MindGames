@@ -5,7 +5,7 @@ import React from "react";
 function InstructionBoxComponent({ onProceed, color, rules }) {
   return (
     <div
-      className={`min-h-screen bg-gradient-to-br from-${color}-200 via-${color}-300 to-${color}-400 relative flex items-center justify-center overflow-hidden`}
+      className={`min-h-dvh bg-gradient-to-br from-${color}-200 via-${color}-300 to-${color}-400 relative flex items-center justify-center overflow-hidden`}
     >
       <div
         className={`absolute lg:block hidden bg-${color}-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20`}
