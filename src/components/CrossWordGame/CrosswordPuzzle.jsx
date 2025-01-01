@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import CrosswordInstructions from "./CrosswordInstructions";
 import puzzles from "./puzzles";
 
-const hints = puzzles[1].hints;
-const grid = puzzles[1].grid;
-
 const Crossword = () => {
+  const hints = puzzles[3].hints;
+  const grid = puzzles[3].grid;
+
   const [answers, setAnswers] = useState(grid.map((row) => row.map(() => "")));
   const [isWinner, setIsWinner] = useState(false);
   const [selectedCell, setSelectedCell] = useState(null);
@@ -138,6 +138,18 @@ const Crossword = () => {
     }
   };
 
+  useEffect(() => {
+    for (let i = 0; i < hints.across.length; i++) {
+      const hint = hints.across[i];
+      checkWordCompletion(hint.row, hint.col, "across", hint.word, hint.number);
+    }
+
+    for (let i = 0; i < hints.down.length; i++) {
+      const hint = hints.down[i];
+      checkWordCompletion(hint.row, hint.col, "down", hint.word, hint.number);
+    }
+  }, [answers]);
+
   const handleChange = (e, rowIndex, colIndex) => {
     const value = e.target.value.toUpperCase().slice(0, 1);
     keySound.play();
@@ -150,18 +162,6 @@ const Crossword = () => {
 
     setAnswers(newAnswers);
     checkWin(newAnswers);
-
-    for (let i = 0; i < hints.across.length; i++) {
-      const hint = hints.across[i];
-
-      checkWordCompletion(hint.row, hint.col, "across", hint.word, hint.number);
-    }
-
-    for (let i = 0; i < hints.down.length; i++) {
-      const hint = hints.down[i];
-
-      checkWordCompletion(hint.row, hint.col, "down", hint.word, hint.number);
-    }
   };
 
   const checkWin = (userAnswers) => {
