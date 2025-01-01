@@ -19,10 +19,7 @@ function InstructionBox({ onProceed }) {
         <ul className="relative text-purple-900 text-xl font-bold text-left list-decimal list-inside mb-6 z-20">
           <li className="pb-4">Match all the pairs of cards to win the game.</li>
           <li className="pb-4">Click on a card to flip it and reveal its value.</li>
-          <li className="pb-4">If two flipped cards match, they remain flipped.</li>
-          <li className="pb-4">
-            If they don’t match, they will flip back after a short delay.
-          </li>
+          <li className="pb-4">If two flipped cards match, they remain flipped.If they don’t match, they will flip back after a short delay.</li>
           <li className="pb-4">
             Choose difficulty: Easy (4x4), Medium (6x6), Hard (8x8).
           </li>

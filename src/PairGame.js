@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import GameBoard from "./components/Pair Game/GameBoard";
 import Header from "./components/Pair Game/Header";
 import Modal from "./components/Pair Game/Modal";
-import InstructionBox from "./components/Pair Game/InstructionBox";
+import InstructionBoxComponent from "./components/InstructionBoxComponent";
 import { Howl } from "howler";
 
 const generateCards = (difficulty) => {
@@ -29,6 +29,13 @@ const generateCards = (difficulty) => {
 };
 
 function PairGame() {
+  const ruleSet=[
+    "Match all the pairs of cards to win the game.",
+    "Click on a card to flip it and reveal its value.",
+    "If two flipped cards match, they remain flipped.If they don’t match, they will flip back after a short delay.",
+    "Choose difficulty: Easy (4x4), Medium (6x6), Hard (8x8).",
+    "Try to complete the game in as few moves as possible!",
+  ]
   const [cards, setCards] = useState(generateCards("easy"));
   const [flippedCards, setFlippedCards] = useState([]);
   const [matchedCards, setMatchedCards] = useState([]);
@@ -100,7 +107,7 @@ function PairGame() {
 
   return(
   <>
-  {showInstructions?<InstructionBox onProceed={()=>{setShowInstructions(false)}}/>:
+  {showInstructions?<InstructionBoxComponent onProceed={()=>{setShowInstructions(false)}} color={'purple'} rules={ruleSet}/>:
     <div className="min-h-screen bg-gradient-to-br from-purple-200 via-purple-300 to-purple-400 flex flex-col items-center p-4">
       <div className="absolute lg:block hidden bg-purple-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
       <div className="absolute lg:block hidden bg-purple-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>

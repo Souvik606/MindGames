@@ -1,6 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import SudokuInstructions from "./components/SudokuGame/InstructionBox";
-import { Howl } from "howler";
+import InstructionBoxComponent from "./components/InstructionBoxComponent";
 
 const SudokuGame = () => {
   const initialPuzzle = [
@@ -14,6 +13,14 @@ const SudokuGame = () => {
     [0, 0, 0, 4, 1, 9, 0, 0, 5],
     [0, 0, 0, 0, 8, 0, 0, 7, 9],
   ];
+
+  const ruleSet=[
+    "Fill the grid so every row, column, and 3x3 box contains numbers 1-9",
+    "Use logical reasoning; no guessing is needed!",
+    "Avoid duplicates in rows, columns, or 3x3 boxes.",
+    "Use the Check button to highlight any mistakes.",
+    "Complete the grid to win!",
+  ]
 
   const [grid, setGrid] = useState(initialPuzzle);
   const [errors, setErrors] = useState([]);
@@ -234,7 +241,7 @@ const SudokuGame = () => {
   return (
     <>
       {showInstructions ? (
-        <SudokuInstructions onProceed={() => setShowInstructions(false)} />
+        <InstructionBoxComponent onProceed={() => setShowInstructions(false)} color={"blue"} rules={ruleSet}/>
       ) : (
         <div className="flex flex-col items-center bg-gradient-to-br from-blue-200 via-blue-300 to-blue-400 min-h-screen p-4">
           <div className="absolute lg:block hidden bg-blue-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>

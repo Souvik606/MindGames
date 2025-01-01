@@ -1,8 +1,16 @@
 import React, { useState, useEffect } from "react";
 import CompletionModal from "./CompletionModal";
-import WordSearchInstructions from "./InstructionBox";
+import InstructionBoxComponent from "../InstructionBoxComponent";
 
 const WordSearchGame = () => {
+  const ruleSet=[
+    "Find all the hidden words in the grid.",
+    "Words can be placed horizontally, vertically, or diagonally.",
+    "Use the list of words to guide you through the grid.",
+    "Click to select box and again click on selected box to deselect.",
+    "Complete the word search to win!",
+  ]
+
   const grid = [
     ["Q", "Z", "T", "L", "S", "L", "S", "S", "J", "T"],
     ["Y", "I", "S", "R", "F", "C", "A", "U", "E", "S"],
@@ -138,7 +146,7 @@ const WordSearchGame = () => {
   return (
     <>
       {showInstructions ? (
-        <WordSearchInstructions onProceed={() => setShowInstructions(false)} />
+        <InstructionBoxComponent onProceed={() => setShowInstructions(false)} color={"orange"} rules={ruleSet} />
       ) : (
         <div className="min-h-screen bg-gradient-to-br from-orange-200 via-orange-300 to-orange-400 flex items-center justify-center p-5">
           <div className="absolute lg:block hidden bg-orange-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
