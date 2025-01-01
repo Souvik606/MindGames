@@ -1,5 +1,3 @@
-"use server";
-
 import React from "react";
 
 function InstructionBoxComponent({ onProceed, color, rules }) {
@@ -17,7 +15,7 @@ function InstructionBoxComponent({ onProceed, color, rules }) {
         className={`absolute lg:block hidden bg-${color}-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]`}
       />
 
-      <div className="relative bg-white shadow-2xl rounded-3xl p-8 max-w-lg text-center overflow-hidden z-10">
+      <div className="relative mx-6 bg-white shadow-2xl rounded-3xl p-8 max-w-lg text-center overflow-hidden z-10">
         <div
           className={`absolute bg-${color}-400 rounded-full w-32 h-32 opacity-30 -top-10 -left-10`}
         />
