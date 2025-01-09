@@ -54,6 +54,8 @@ const SpotTheDifference = () => {
     event.stopPropagation(); // Stop propagation to prevent body click interference
     setGameOver(false); // Reset gameOver
     setLevel(1);
+    setTimer(0);
+    setLevelSkipped(false);
     generateCubes(5); // Start a new game
   };
 
@@ -119,10 +121,10 @@ const SpotTheDifference = () => {
                 Level {level}
               </h3>
               <div className="flex justify-around w-full py-3">
-                <h2 className="text-red-400">Wrong</h2>
-                <h2 className="text-green-500">Correct</h2>
+                <h2 className="text-rose-600 text-lg font-bold">Wrong</h2>
+                <h2 className="text-emerald-600 text-lg font-bold">Correct</h2>
               </div>
-              <div className="flex">
+              <div className="flex gap-2">
                 <div
                   id="left"
                   ref={leftSideRef}
@@ -132,7 +134,7 @@ const SpotTheDifference = () => {
                     position: "relative",
                     overflow: "hidden",
                   }}
-                  className="border-2 border-blue-500 bg-teal-100"
+                  className="border-2 border-teal-500 bg-teal-100"
                 >
                   {cubes.map((cube) => (
                     <div
@@ -150,7 +152,7 @@ const SpotTheDifference = () => {
                   {lastCube && (
                     <div
                       key={lastCube.id}
-                      className="cube bg-teal-600 rounded-full border-teal-950 border-2"
+                      className="cube bg-teal-700 rounded-full border-teal-950 border-2"
                       style={{
                         width: "50px",
                         height: "50px",
@@ -170,7 +172,7 @@ const SpotTheDifference = () => {
                     position: "relative",
                     overflow: "hidden",
                   }}
-                  className="border-2 border-blue-500 bg-teal-100"
+                  className="border-2 border-teal-500 bg-teal-100"
                 >
                   {cubes.map((cube) => (
                     <div
@@ -188,55 +190,49 @@ const SpotTheDifference = () => {
                 </div>
               </div>
               {gameOver && (
-                <div
-                  style={{
-                    position: "fixed",
-                    top: "50%",
-                    left: "50%",
-                    transform: "translate(-50%, -50%)",
-                    backgroundColor: "white",
-                    padding: "20px",
-                    borderRadius: "8px",
-                    boxShadow: "0 4px 8px rgba(0, 0, 0, 0.2)",
-                    textAlign: "center",
-                  }}
-                  onClick={(e) => e.stopPropagation()} // Prevent clicks on dialog from propagating
-                >
-                  <p>Game Over! Your level is: {level}</p>
-                  <p>Do you want to restart?</p>
-                  <button
-                    onClick={restartGame} // Ensure click does not trigger the body click
-                    style={{
-                      marginRight: "10px",
-                      padding: "8px 16px",
-                      backgroundColor: "green",
-                      color: "white",
-                      border: "none",
-                      borderRadius: "4px",
-                    }}
+                <>
+                  <div className="absolute inset-0 bg-black/90 z-40" />
+                  <div
+                    className="bg-white p-10 rounded-lg shadow-lg fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-50  text-center text-lg flex flex-col items-center gap-1"
+                    onClick={(e) => e.stopPropagation()} // Prevent clicks on dialog from propagating
                   >
-                    Yes
-                  </button>
-                </div>
+                    <p className="text-4xl font-bold text-emerald-700">
+                      Game Over!
+                    </p>
+                    <p className="text-xl text-gray-500">
+                      You are on level {level}, Do you want to restart?
+                    </p>
+                    <button
+                      onClick={restartGame} // Ensure click does not trigger the body click
+                      className="py-2 px-6 bg-green-600 text-white rounded-lg text-2xl"
+                    >
+                      Yes
+                    </button>
+                  </div>
+                </>
               )}
 
               <div className="flex justify-center flex-wrap gap-4 py-5">
                 <button
-                  className="py-2 px-4 bg-red-500 text-white rounded-lg"
+                  className="py-2 px-4 bg-rose-500 text-white rounded-lg text-lg"
                   onClick={() => setGameOver(true)}
                 >
                   Restart
                 </button>
-                {!levelSkipped && (
-                  <button
-                    className="py-2 px-4 bg-green-500 text-white rounded-lg"
-                    onClick={handleSkipLevel}
-                  >
-                    Skip Level
-                  </button>
-                )}
+
+                <button
+                  className="py-2 px-4 bg-emerald-500 text-white rounded-lg text-lg disabled:bg-gray-400"
+                  onClick={handleSkipLevel}
+                  disabled={levelSkipped}
+                >
+                  Skip Level
+                </button>
               </div>
-              <h3>You can only skip once</h3>
+              <h3 className="font-bold text-teal-500 text-center text-lg">
+                {levelSkipped
+                  ? "You cannot skip any more levels."
+                  : "You can only skip once!"}
+              </h3>
             </div>
           </div>
         </div>
