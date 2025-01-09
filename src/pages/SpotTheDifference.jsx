@@ -21,6 +21,7 @@ const SpotTheDifference = () => {
   const cubeSize = 50;
 
   const wrongSound = new Audio("/sounds/wrong.wav");
+  const shades = ["300", "400", "500", "600", "700", "800", "900", "950"];
 
   const generatePosition = (containerSize, cubeSize) => {
     return Math.random() * (containerSize - cubeSize);
@@ -169,10 +170,12 @@ const SpotTheDifference = () => {
                   }}
                   className="border-2 border-teal-500 bg-teal-100"
                 >
-                  {cubes.map((cube) => (
+                  {cubes.map((cube, index) => (
                     <div
                       key={cube.id}
-                      className="cube bg-teal-700 rounded-full border-teal-950 border-2 cursor-crosshair"
+                      className={`cube bg-teal-${
+                        shades[index % shades.length]
+                      } rounded-full border-teal-950 border-2 cursor-crosshair`}
                       style={{
                         width: "50px",
                         height: "50px",
@@ -208,10 +211,12 @@ const SpotTheDifference = () => {
                   }}
                   className="border-2 border-teal-500 bg-teal-100"
                 >
-                  {cubes.map((cube) => (
+                  {cubes.map((cube, index) => (
                     <div
                       key={cube.id}
-                      className="cube bg-teal-700 rounded-full border-teal-950 border-2 cursor-crosshair"
+                      className={`cube bg-teal-${
+                        shades[index % shades.length]
+                      } rounded-full border-teal-950 border-2 cursor-crosshair`}
                       style={{
                         width: "50px",
                         height: "50px",
