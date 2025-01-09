@@ -108,7 +108,7 @@ const SpotTheDifference = () => {
       <div
         className={`${
           showInstructions ? "hidden" : "flex"
-        } min-h-screen bg-gradient-to-br from-teal-200 via-teal-300 to-teal-400 flex items-center justify-center p-5`}
+        } min-h-screen bg-gradient-to-br from-teal-200 via-teal-300 to-teal-400 flex items-center justify-center p-2`}
       >
         <div className="absolute lg:block hidden bg-teal-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
         <div className="absolute lg:block hidden bg-teal-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
@@ -116,21 +116,35 @@ const SpotTheDifference = () => {
 
         <div className="bg-white z-10 p-5 rounded-2xl shadow-lg max-w-6xl w-full">
           <div className="flex-1 p-4 rounded-lg shadow-md bg-white border-4 border-teal-300 w-full relative">
-            <div className="flex flex-col justify-between px-6">
-              <h1 className="text-3xl font-bold text-teal-600 mb-4 text-center">
+            <div className="flex justify-center items-center gap-x-12 px-6">
+              <h1 className="text-4xl font-bold text-teal-600 text-center">
                 {instructions.spotTheDifference.name}
               </h1>
-              <h1 className="text-3xl font-bold text-teal-700 mb-4 text-center">
+              <h1 className="text-3xl font-bold text-teal-700 text-center">
                 Timer: {formatTime(timer)}
               </h1>
+                <button
+                  className="py-3 px-6 bg-rose-500 hover:bg-rose-700 text-white rounded-full text-xl font-bold"
+                  onClick={() => setGameOver(true)}
+                >
+                  Restart
+                </button>
+
+                <button
+                  className="py-3 px-6 bg-emerald-500 hover:bg-emerald-700 text-white rounded-full text-xl font-bold disabled:bg-gray-400"
+                  onClick={handleSkipLevel}
+                  disabled={levelSkipped}
+                >
+                  Skip Level
+                </button>
             </div>
-            <div id="container" className="max-w-4xl mx-auto p-4">
+            <div id="container" className="max-w-4xl text-teal-700 text-4xl font-bold mx-auto p-4">
               <h3 id="status" style={{ textAlign: "center" }}>
                 Level {level}
               </h3>
               <div className="flex justify-around w-full py-3">
-                <h2 className="text-rose-600 text-lg font-bold">Wrong</h2>
-                <h2 className="text-emerald-600 text-lg font-bold">Correct</h2>
+                <h2 className="text-rose-600 text-2xl font-bold">Wrong</h2>
+                <h2 className="text-emerald-600 text-2xl font-bold">Correct</h2>
               </div>
               <div className="flex gap-2">
                 <div
@@ -220,26 +234,10 @@ const SpotTheDifference = () => {
                 </>
               )}
 
-              <div className="flex justify-center flex-wrap gap-4 py-5">
-                <button
-                  className="py-2 px-4 bg-rose-500 text-white rounded-lg text-lg"
-                  onClick={() => setGameOver(true)}
-                >
-                  Restart
-                </button>
-
-                <button
-                  className="py-2 px-4 bg-emerald-500 text-white rounded-lg text-lg disabled:bg-gray-400"
-                  onClick={handleSkipLevel}
-                  disabled={levelSkipped}
-                >
-                  Skip Level
-                </button>
-              </div>
-              <h3 className="font-bold text-teal-500 text-center text-lg">
+              <h3 className="font-bold text-red-500 text-center text-xl pt-3">
                 {levelSkipped
-                  ? "You cannot skip any more levels."
-                  : "You can only skip once!"}
+                  ? "*You cannot skip any more levels."
+                  : "*You can only skip once!"}
               </h3>
 
               {/* Instructions dropdown */}

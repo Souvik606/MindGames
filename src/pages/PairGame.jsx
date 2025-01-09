@@ -138,7 +138,7 @@ function PairGame() {
           <div className="bg-white m-2 z-10 px-6 py-3 my-auto rounded-3xl shadow-xl">
             <Header moves={moves} time={time} onRestart={restartGame} />
             <div className="mb-4 flex justify-center items-center">
-              <label htmlFor="difficulty" className="mr-2 text-xl font-bold">
+              <label htmlFor="difficulty" className="mr-2 text-xl text-purple-800 font-extrabold">
                 Select Difficulty:
               </label>
               <select
