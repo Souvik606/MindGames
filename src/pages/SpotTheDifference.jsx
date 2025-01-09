@@ -1,6 +1,8 @@
 import React, { useState, useRef, useEffect } from "react";
-import InstructionBoxComponent from "../InstructionBoxComponent";
-import instructions from "../../data/gamesData";
+import InstructionBoxComponent from "../components/InstructionBoxComponent";
+import instructions from "../data/gamesData";
+import InstructionOnHover from "../components/InstructionOnHover";
+import HomeButton from "../components/HomeButton";
 
 const SpotTheDifference = () => {
   const [level, setLevel] = useState(1);
@@ -17,6 +19,8 @@ const SpotTheDifference = () => {
   const leftSideRef = useRef(null);
 
   const cubeSize = 50;
+
+  const wrongSound = new Audio("/sounds/wrong.wav");
 
   const generatePosition = (containerSize, cubeSize) => {
     return Math.random() * (containerSize - cubeSize);
@@ -46,8 +50,10 @@ const SpotTheDifference = () => {
   };
 
   const handleCubeClick = (event) => {
+    const clickSound = new Audio("/sounds/correct.wav");
     event.stopPropagation(); // Prevent click from propagating to the body
     setLevel((prev) => prev + 1);
+    clickSound.play();
     generateCubes((level + 1) * 5);
   };
 
@@ -74,6 +80,8 @@ const SpotTheDifference = () => {
   useEffect(() => {
     if (level === 30) {
       setWin(true);
+      const winSound = new Audio("/sounds/win.wav");
+      winSound.play();
     }
   }, [level]);
 
@@ -123,22 +131,25 @@ const SpotTheDifference = () => {
               <h1 className="text-3xl font-bold text-teal-700 text-center">
                 Timer: {formatTime(timer)}
               </h1>
-                <button
-                  className="py-3 px-6 bg-rose-500 hover:bg-rose-700 text-white rounded-full text-xl font-bold"
-                  onClick={() => setGameOver(true)}
-                >
-                  Restart
-                </button>
+              <button
+                className="py-3 px-6 bg-rose-500 hover:bg-rose-700 text-white rounded-full text-xl font-bold"
+                onClick={() => setGameOver(true)}
+              >
+                Restart
+              </button>
 
-                <button
-                  className="py-3 px-6 bg-emerald-500 hover:bg-emerald-700 text-white rounded-full text-xl font-bold disabled:bg-gray-400"
-                  onClick={handleSkipLevel}
-                  disabled={levelSkipped}
-                >
-                  Skip Level
-                </button>
+              <button
+                className="py-3 px-6 bg-emerald-500 hover:bg-emerald-700 text-white rounded-full text-xl font-bold disabled:bg-gray-400"
+                onClick={handleSkipLevel}
+                disabled={levelSkipped}
+              >
+                Skip Level
+              </button>
             </div>
-            <div id="container" className="max-w-4xl text-teal-700 text-4xl font-bold mx-auto p-4">
+            <div
+              id="container"
+              className="max-w-4xl text-teal-700 text-4xl font-bold mx-auto p-4"
+            >
               <h3 id="status" style={{ textAlign: "center" }}>
                 Level {level}
               </h3>
@@ -169,6 +180,7 @@ const SpotTheDifference = () => {
                         left: cube.left,
                         top: cube.top,
                       }}
+                      onClick={() => wrongSound.play()}
                     />
                   ))}
                   {lastCube && (
@@ -241,32 +253,8 @@ const SpotTheDifference = () => {
               </h3>
 
               {/* Instructions dropdown */}
-              <button className="absolute top-5 right-5 peer cursor-help p-1 bg-teal-100 rounded-full">
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="2"
-                  stroke="#222222"
-                  className="size-8"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M9.879 7.519c1.171-1.025 3.071-1.025 4.242 0 1.172 1.025 1.172 2.687 0 3.712-.203.179-.43.326-.67.442-.745.361-1.45.999-1.45 1.827v.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Zm-9 5.25h.008v.008H12v-.008Z"
-                  />
-                </svg>
-              </button>
-              <div className="absolute top-12 right-12 bg-gray-800 p-5 rounded-lg shadow-lg hidden peer-hover:block opacity-90 ">
-                <h1 className="text-2xl font-bold text-teal-200 mb-4 text-center">
-                  Instructions
-                </h1>
-                <ol className="list-decimal list-inside">
-                  {ruleset.map((rule) => (
-                    <li className="text-lg text-gray-200">{rule}</li>
-                  ))}
-                </ol>
-              </div>
+              <InstructionOnHover ruleSet={ruleset} color="teal" />
+              <HomeButton color="teal" />
             </div>
           </div>
         </div>

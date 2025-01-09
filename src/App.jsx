@@ -5,7 +5,7 @@ import SudokuGame from "./pages/Sudoku";
 import Crossword from "./pages/CrosswordPuzzle";
 import SlidingPuzzleGame from "./pages/SlidingPuzzleGame";
 import WordSearchGame from "./pages/wordsearchgame";
-import SpotTheDifference from "./components/Spot The Difference/Game";
+import SpotTheDifference from "./pages/SpotTheDifference";
 
 function App() {
   return (

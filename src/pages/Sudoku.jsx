@@ -1,6 +1,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
 import instructions from "../data/gamesData";
+import InstructionOnHover from "../components/InstructionOnHover";
+import HomeButton from "../components/HomeButton";
 
 const SudokuGame = () => {
   const initialPuzzle = [
@@ -247,7 +249,9 @@ const SudokuGame = () => {
           <div className="absolute lg:block hidden bg-blue-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
           <div className="absolute lg:block hidden bg-blue-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
 
-          <div className="bg-white z-10 px-10 py-4 rounded-3xl">
+          <div className="bg-white z-10 px-10 py-4 rounded-3xl relative">
+            <InstructionOnHover ruleSet={ruleSet} color="blue" />
+            <HomeButton color="blue" />
             <h1 className="text-4xl text-center font-extrabold text-blue-600 mb-4">
               Sudoku Master
             </h1>

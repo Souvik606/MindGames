@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
 import puzzles from "../data/crosswords";
 import instructions from "../data/gamesData.js";
+import InstructionOnHover from "../components/InstructionOnHover.jsx";
+import HomeButton from "../components/HomeButton.jsx";
 
 const Crossword = () => {
   const ruleSet = instructions.crosswordPuzzle.rules;
@@ -213,12 +215,14 @@ const Crossword = () => {
       rules={ruleSet}
     />
   ) : (
-    <div className="min-h-screen bg-rose-100 p-10">
-      <div className=" flex flex-col items-center bg-white rounded-xl p-10 w-max mx-auto">
+    <div className="min-h-screen bg-rose-100 p-10 flex items-center justify-center">
+      <div className=" flex flex-col items-center bg-white rounded-xl p-10 w-max mx-auto relative">
+        <InstructionOnHover ruleSet={ruleSet} color="rose" />
+        <HomeButton color="rose" />
         <h1 className="text-4xl font-bold text-rose-600 uppercase">
           Crossword Puzzle
         </h1>
-        <div className="flex flex-col md:space-x-10 py-5">
+        <div className="flex lg:flex-row flex-col md:space-x-10 py-10">
           {/* Crossword Grid */}
           <div
             className={`flex flex-col h-max items-center border-rose-700 border-2 w-max mx-auto ${
@@ -293,7 +297,7 @@ const Crossword = () => {
           </div>
           {/* Hints Section */}
           <div className="mb-5 md:mb-0 py-5">
-            <div className="flex flex-wrap gap-5">
+            <div className="flex flex-wrap gap-8">
               <div>
                 <h3 className="font-bold text-2xl text-rose-500">Across</h3>
                 <ul className="mb-3 text-xl list-outside">

@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import CompletionModal from "../components/WordSearch.jsx/CompletionModal";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
 import instructions from "../data/gamesData";
+import InstructionOnHover from "../components/InstructionOnHover";
+import HomeButton from "../components/HomeButton";
 
 const WordSearchGame = () => {
   const ruleSet = instructions.wordSearch.rules;
@@ -152,7 +154,9 @@ const WordSearchGame = () => {
           <div className="absolute lg:block hidden bg-orange-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
           <div className="absolute lg:block hidden bg-orange-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
 
-          <div className="bg-white z-10 p-5 rounded-2xl shadow-lg max-w-6xl grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-5">
+          <div className="bg-white z-10 p-5 rounded-2xl shadow-lg max-w-6xl grid grid-cols-1 lg:grid-cols-[1fr_auto] gap-5 relative pt-16">
+            <InstructionOnHover ruleSet={ruleSet} color="orange" />
+            <HomeButton color="orange" />
             <div className="flex-1 p-4 rounded-lg shadow-md bg-white border-4 border-orange-300">
               <div className="flex justify-between px-6">
                 <h1 className="text-3xl font-bold text-orange-600 mb-4 text-center">

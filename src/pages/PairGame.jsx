@@ -5,6 +5,8 @@ import Modal from "../components/Pair Game/Modal";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
 import { Howl } from "howler";
 import instructions from "../data/gamesData";
+import InstructionOnHOver from "../components/InstructionOnHover";
+import HomeButton from "../components/HomeButton";
 
 const generateCards = (difficulty) => {
   let cardsData;
@@ -135,10 +137,15 @@ function PairGame() {
           <div className="absolute lg:block hidden bg-purple-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
           <div className="absolute lg:block hidden bg-purple-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
           <div className="absolute lg:block hidden bg-purple-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
-          <div className="bg-white m-2 z-10 px-6 py-3 my-auto rounded-3xl shadow-xl">
+          <div className="w-full max-w-5xl bg-white m-2 z-10 px-10 py-5 my-auto rounded-3xl shadow-xl relative">
+            <InstructionOnHOver ruleSet={ruleSet} color={"purple"} />
+            <HomeButton color={"purple"} />
             <Header moves={moves} time={time} onRestart={restartGame} />
             <div className="mb-4 flex justify-center items-center">
-              <label htmlFor="difficulty" className="mr-2 text-xl text-purple-800 font-extrabold">
+              <label
+                htmlFor="difficulty"
+                className="mr-2 text-xl text-purple-800 font-extrabold"
+              >
                 Select Difficulty:
               </label>
               <select

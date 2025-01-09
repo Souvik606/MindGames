@@ -2,6 +2,8 @@ import React, { useState, useEffect, useRef } from "react";
 import InstructionBoxComponent from "../components/InstructionBoxComponent";
 import { Howl } from "howler";
 import instructions from "../data/gamesData";
+import InstructionOnHover from "../components/InstructionOnHover";
+import HomeButton from "../components/HomeButton";
 
 const SlidingPuzzleGame = () => {
   const ruleSet = instructions.slidingPuzzle.rules;
@@ -128,7 +130,9 @@ const SlidingPuzzleGame = () => {
           <div className="absolute lg:block hidden bg-yellow-400 rounded-full w-96 h-96 opacity-30 top-100 -left-20"></div>
           <div className="absolute lg:block hidden bg-yellow-500 rounded-full w-80 h-80 opacity-20 bottom-10 right-10"></div>
           <div className="absolute lg:block hidden bg-yellow-600 rounded-full w-64 h-64 opacity-15 -top-36 left-[850px]"></div>
-          <div className="bg-white shadow-xl max-w-3xl flex flex-col items-center justify-center py-10 px-6 rounded-3xl space-y-8 z-10">
+          <div className="bg-white shadow-xl max-w-3xl flex flex-col items-center relative justify-center py-10 px-6 rounded-3xl space-y-8 z-10">
+            <InstructionOnHover ruleSet={ruleSet} color="yellow" />
+            <HomeButton color="yellow" />
             <h1 className="text-4xl font-extrabold text-yellow-700 drop-shadow-md">
               🧩Sliding Puzzle Game
             </h1>
