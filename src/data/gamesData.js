@@ -15,6 +15,8 @@ const instructions = {
   },
   sudoku: {
     name: "Sudoku",
+    img: "/images/sudoku.jpg",
+    link: "/sliding-puzzle",
     description:
       "Sudoku is a logic-based, combinatorial number-placement puzzle. The objective is to fill a 9×9 grid with digits so that each column, each row, and each of the nine 3×3 subgrids that compose the grid contain all of the digits from 1 to 9.",
     rules: [
@@ -69,6 +71,8 @@ const instructions = {
   },
   spotTheDifference: {
     name: "Spot The Difference",
+    img: "/images/spot-the-difference.webp",
+    link: "/sliding-puzzle",
     description:
       "Spot the Difference is a puzzle game where players are challenged to find the differences between two similar images. The objective is to find and click on all the differences before time runs out.",
     rules: [
