@@ -67,6 +67,18 @@ const instructions = {
       "Complete the word search to win!",
     ],
   },
+  spotTheDifference: {
+    name: "Spot The Difference",
+    description:
+      "Spot the Difference is a puzzle game where players are challenged to find the differences between two similar images. The objective is to find and click on all the differences before time runs out.",
+    rules: [
+      "Find and click on all the differences between the two images.",
+      "Differences can be in color, shape, size, or position.",
+      "Use the magnifying glass to zoom in on the images.",
+      "Click on the differences to mark them.",
+      "Complete the puzzle to win!",
+    ],
+  },
 };
 
 export default instructions;
