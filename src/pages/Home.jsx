@@ -55,6 +55,12 @@ function Home() {
               alt: "Word Search",
               link: "/word-search",
             },
+            {
+              name: "Spot The Difference",
+              img: "/images/spot-the-difference.webp",
+              alt: "Spot The Difference",
+              link: "/spot-the-difference",
+            },
           ].map((game, idx) => (
             <Link
               key={idx}

@@ -5,6 +5,7 @@ import SudokuGame from "./pages/Sudoku";
 import Crossword from "./pages/CrosswordPuzzle";
 import SlidingPuzzleGame from "./pages/SlidingPuzzleGame";
 import WordSearchGame from "./pages/wordsearchgame";
+import SpotTheDifference from "./components/Spot The Difference/Game";
 
 function App() {
   return (
@@ -16,6 +17,7 @@ function App() {
         <Route path="crossword-game" element={<Crossword />} />
         <Route path="sliding-puzzle" element={<SlidingPuzzleGame />} />
         <Route path="word-search" element={<WordSearchGame />} />
+        <Route path="spot-the-difference" element={<SpotTheDifference />} />
       </Routes>
     </BrowserRouter>
   );
