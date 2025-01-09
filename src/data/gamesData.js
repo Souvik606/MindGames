@@ -78,9 +78,10 @@ const instructions = {
     rules: [
       "Find and click on all the differences between the two images.",
       "Differences can be in color, shape, size, or position.",
-      "Use the magnifying glass to zoom in on the images.",
-      "Click on the differences to mark them.",
-      "Complete the puzzle to win!",
+      "Click the Skip button to move to the next set of images.",
+      "Remember, you can skip only once.",
+      "Click on the difference to pass the level.",
+      "Reach level 30 to win!",
     ],
   },
 };
